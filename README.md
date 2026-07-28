@@ -4,6 +4,43 @@ Replication and extension of the P-star monetarist model in **"A return to monet
 (Peter Ireland, Stephen Miran, Nouriel Roubini, Hudson Bay Research, July 2026),
 built from public FRED and Center for Financial Stability data.
 
+## Summary
+
+The paper argues that monetary aggregates still carry information about future
+inflation, and applies a Greenspan-era P-star model to current data. Its headline
+result: as of 2026Q1 the price gap is close to zero across all six specifications, so
+monetary policy is "approximately neutral," recent high inflation must be supply-driven,
+and the Fed should wait rather than hike.
+
+This repo reproduces that result and then pushes on it. Three findings:
+
+1. **The replication holds.** All six price-gap coefficients land within 0.01–0.02 of the
+   published values, with matching t-statistics and R². The paper's stated potential-growth
+   diagnostics reproduce to within 0.03pp. The 2026Q1 gap *levels* run ~0.2pp high, which
+   traces to data vintage (a +0.115% revision to 2026Q1 real GDP after publication), not
+   to method.
+
+2. **The conclusion has already expired.** Using data available at 2026-07-28, the gaps
+   have crossed zero: 2026Q2 sits at +0.4 to +2.2 depending on specification. Money is
+   growing 7.7–8.7% annualized over three months against a "speed limit" (potential + 2%
+   target) of 4.25–5.0%. The source is bank lending, not the Fed — the balance sheet is
+   flat and reserves are down 10% year-over-year, while C&I loans are growing at a 13.9%
+   annualized rate. This is the exact contingency the authors named as the trigger to
+   revisit their recommendation.
+
+3. **But the model may not be trustworthy in the regime that matters.** Estimated on
+   1990–2019, the price-gap coefficient is ~0 and insignificant in *all six*
+   specifications, including the Divisia ones meant to fix precisely that problem. The
+   full-sample coefficient is carried entirely by 1967–1983 and 2020–2026. Out of sample
+   since 1990 the gap beats a plain AR(4) by 3.3% on RMSE (Diebold-Mariano t = −1.02, not
+   significant). The model is plausibly a regime-dependent indicator that works when money
+   is moving a lot — which it now is — but the paper reports a stable 0.10 and does not
+   test this.
+
+Work in progress on (a) modelling the regime dependence explicitly and (b) replacing the
+atheoretic HP velocity trend with a money-demand equation estimated on the CFS user-cost
+data, which is the most likely fix for finding 3.
+
 ## The model
 
 Equation of exchange with transactions variable `x` (real GDP or real PCE):
