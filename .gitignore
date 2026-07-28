@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.ipynb_checkpoints/
+venv/
+.venv/
+
+# Third-party data, re-downloaded on demand (CFS revises monthly)
+data/Divisia.xlsx
+
+# Generated output
+output/*.csv
