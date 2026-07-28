@@ -396,9 +396,18 @@ def price_gap(df, money_col, real_col, price_col, filt="recursive"):
 
 
 class OLSResult:
-    """Minimal OLS output: classical (homoskedastic) standard errors."""
+    """
+    Minimal OLS output. Classical (homoskedastic) standard errors by default;
+    `hac_lags` switches to Newey-West, which is the honest choice here since the
+    regressand is a change in inflation with obvious heteroskedasticity across
+    the 1970s and the 2010s.
 
-    def __init__(self, y, X):
+    Note that even the HAC errors understate uncertainty: the price gap is a
+    *generated* regressor built from filtered estimates of v* and x*, and the
+    regression treats it as observed data.
+    """
+
+    def __init__(self, y, X, hac_lags=None):
         from scipy import stats
 
         names = list(X.columns)
@@ -409,7 +418,15 @@ class OLSResult:
         dof = n - k
         s2 = resid @ resid / dof
         XtXi = np.linalg.inv(Xv.T @ Xv)
-        se = np.sqrt(np.diag(XtXi) * s2)
+        if hac_lags is None:
+            se = np.sqrt(np.diag(XtXi) * s2)
+        else:
+            u = Xv * resid[:, None]
+            S = u.T @ u
+            for L in range(1, hac_lags + 1):
+                G = u[L:].T @ u[:-L]
+                S += (1.0 - L / (hac_lags + 1.0)) * (G + G.T)
+            se = np.sqrt(np.diag(XtXi @ S @ XtXi) * n / dof)
         tss = ((yv - yv.mean()) ** 2).sum()
 
         self.params = pd.Series(beta, index=names)
