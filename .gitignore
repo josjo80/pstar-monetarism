@@ -8,5 +8,8 @@ venv/
 # Third-party data, re-downloaded on demand (CFS revises monthly)
 data/Divisia.xlsx
 
+# ALFRED vintage cache, rebuilt with `python vintages.py --fetch`
+data/vintages/
+
 # Generated output
 output/*.csv

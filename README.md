@@ -36,7 +36,15 @@ This repo reproduces that result and then pushes on it. Three findings:
    significant). The rule of thumb is not a constant of nature, but the current reading
    does come from a window where the model demonstrably works.
 
-See **Findings on model structure** below for what did and did not fix this.
+4. **And the gap cannot be told apart from zero in real time.** Rebuilt from ALFRED
+   vintages, the gap a policymaker would have seen at the time has a revision standard
+   deviation of **3.13pp against a gap that varies by 2.88pp** — a noise-to-signal ratio
+   of 1.09. Real-time and hindsight estimates disagree on the *sign* of policy in 33% of
+   quarters. Applying that revision distribution, the 90% band on every one of the six
+   2026Q1 gaps spans zero. So does the paper's "approximately neutral" reading, and so
+   does finding 2 above. The gap has genuinely risen; the level is not identified.
+
+See **Findings on model structure** below for the detail.
 
 ## The model
 
@@ -160,6 +168,66 @@ opportunity cost, and full-sample vs recursive DOLS estimation of the cointegrat
 The useful conclusion is a narrowing one: the 1990–2019 hole is **not** an artifact of how
 V* is estimated. It is in the data.
 
+### Is the gap identified in real time? (`vintages.py`, `diagnostics/uncertainty.py`)
+
+**No, and this is the largest single problem with the framework.** The paper's case for the
+one-sided HP filter is that it works in real time — but the published estimates are
+computed on final, revised data. Rebuilding the gap from ALFRED vintages (M2/GDP,
+1992–2026, 137 quarters, gap for quarter *t* dated to the vintage two months after *t*
+closes):
+
+| | vs final two-sided | vs 5-year hindsight |
+|---|---|---|
+| sd of revision | 3.13pp | 2.16pp |
+| sd of the gap itself | 2.88pp | 2.34pp |
+| **noise-to-signal** | **1.09** | **0.93** |
+| correlation, real-time vs benchmark | 0.47 | 0.57 |
+| sign disagreements | 33% | 33% |
+
+The revision is essentially *all* filter endpoint, not data:
+
+| component | sd |
+|---|---|
+| filter endpoint (final 2-sided − final 1-sided) | 3.13pp |
+| data revision (final 1-sided − real-time) | 0.31pp |
+
+This is the Orphanides–van Norden (2002) result carrying over, as expected — the P-star
+gap contains an output gap as one of its two components.
+
+**The 2020–21 test cuts both ways.** In real time the gap jumped to +10.6 in 2020Q2 and
+stayed high through 2021, so the model *would* have flagged the money surge — a real win
+for the paper's central claim. But by 2021Q4 the real-time gap had faded to +2.2 and by
+2022Q1 to −0.1, calling the all-clear, while the hindsight estimate says the impulse was
+still near its peak (+9.2, +8.4). A policymaker following it live would have stood down
+at exactly the wrong moment.
+
+**Consequence for the current reading.** Applying the revision distribution:
+
+| Spec | 2026Q1 gap | 90% band | sign certain? |
+|---|---|---|---|
+| M2/GDP | −0.13 | [−4.70, +7.33] | no |
+| Divisia M2/GDP* | +0.62 | [−4.78, +6.77] | no |
+| Divisia M4/GDP* | +1.02 | [−3.05, +6.33] | no |
+| M2/PCE | −0.22 | [−5.62, +8.37] | no |
+| Divisia M2/PCE* | +0.53 | [−3.53, +7.63] | no |
+| Divisia M4/PCE* | +0.92 | [−3.61, +6.24] | no |
+
+\* ALFRED has no Divisia vintages; the revision distribution is borrowed from M2/GDP.
+
+Two things this does **not** say. It does not say the gap has not risen — the *change*
+over 2024–2026 is far better identified than the level, since revisions are persistent
+and largely common across adjacent quarters. And it does not overturn the forecast
+arithmetic: conditioning on the measured gap, γ̂ × gap is still the right point forecast
+(+9bp for the Divisia specs, 90% CI [+2, +16]), because γ̂ is the projection onto the
+*noisy* gap and its attenuation is what makes it correct. Set that against the
+regression's own residual spread of ~108bp per quarter.
+
+Separately, an attenuation diagnostic: adding one more revision's worth of noise to the
+gap shrinks γ̂ by ~52%, so the *structural* coefficient is materially larger than 0.10.
+That matters for reading γ as economics, not for forecasting with it.
+
+See `uncertainty.png`.
+
 ## Known caveats
 
 **γ is not a constant.** See *Findings on model structure* above. The headline 0.10 is
@@ -171,8 +239,13 @@ edge over an AR(4) since 1990 is not statistically significant.
 built from filtered estimates of v* and x* and then treated as observed data. A bootstrap
 through the whole pipeline (filter included) is the outstanding fix.
 
-**The gap itself has no confidence band.** It is reported as a point estimate. Given the
-current signal is +1 to +2 against a historical range of ±5, the band may well swamp it.
+**Divisia real-time behaviour is assumed, not measured.** The CFS publishes no vintage
+archive, so the revision distribution is measured on simple-sum M2/GDP and applied to the
+Divisia specifications. The endpoint problem is a property of the filter rather than of
+the aggregate, so this is plausible — but it is an assumption.
+
+**Nothing here bands the *model*.** All the intervals condition on the P-star
+specification being correct.
 
 ## Usage
 
@@ -191,8 +264,13 @@ python pstar_replication.py --cfs data/Divisia.xlsx --compare-filters
 # pipeline check on synthetic data, no network
 python pstar_replication.py --selftest
 
-# chart
+# real-time reconstruction from ALFRED vintages (~400 cached requests)
+python vintages.py --fetch
+python vintages.py
+
+# charts
 python plot_price_gaps.py --cfs data/Divisia.xlsx --out price_gaps.png
+python plot_uncertainty.py
 ```
 
 Diagnostics (each takes the CFS path from `$CFS_XLSX`, default `data/Divisia.xlsx`):
@@ -205,6 +283,7 @@ Diagnostics (each takes the CFS path from `$CFS_XLSX`, default `data/Divisia.xls
 | `diagnostics/spec_sensitivity.py` | How much do filter start / deflator choice move the 2026Q1 gaps? |
 | `diagnostics/regime.py` | Break tests, threshold models, HAC confidence intervals on γ. |
 | `diagnostics/velocity_comparison.py` | Does a money-demand V* beat the HP-trend V*? |
+| `diagnostics/uncertainty.py` | Bands on the gap, on γ, and on the implied inflation effect. |
 
 ## Data
 
@@ -212,7 +291,7 @@ Diagnostics (each takes the CFS path from `$CFS_XLSX`, default `data/Divisia.xls
 |---|---|
 | FRED | `GDP`, `GDPC1`, `PCECC96`, `PCECTPI`, `M2SL`, `GDPPOT`, `GDPNOW`, `PCEPI`, `PCEC96`, `USREC` |
 | FRED (H.8 / H.4.1) | `TOTBKCR`, `BUSLOANS`, `REALLN`, `CONSUMER`, `TOTLL`, `WALCL`, `WRESBAL` |
-| ALFRED | vintage checks |
+| ALFRED | quarterly vintages of `GDP`, `GDPC1`, `M2SL`, 1992–2026, cached in `data/vintages/` |
 | [CFS](https://centerforfinancialstability.org/amfm_data.php) | Divisia M2, M3, M4-, M4 (`Divisia.xlsx`) |
 
 No API key required — everything comes through public CSV endpoints.
