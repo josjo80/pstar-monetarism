@@ -12,7 +12,7 @@ result: as of 2026Q1 the price gap is close to zero across all six specification
 monetary policy is "approximately neutral," recent high inflation must be supply-driven,
 and the Fed should wait rather than hike.
 
-This repo reproduces that result and then pushes on it. Three findings:
+This repo reproduces that result and then pushes on it. Six findings:
 
 1. **The replication holds.** All six price-gap coefficients land within 0.01–0.02 of the
    published values, with matching t-statistics and R². The paper's stated potential-growth
@@ -54,6 +54,26 @@ This repo reproduces that result and then pushes on it. Three findings:
    measured supply. Meanwhile the energy shock the paper hedged about has now arrived:
    2026Q2 is the **third-largest oil shock since 1946**, implying +1.5 to +2.1pp on
    inflation by 2027Q1 — an order of magnitude larger than the monetary signal.
+
+6. **The whole P-star construction can be replaced by 4-quarter money growth, at no cost
+   in accuracy and an 18-fold gain in precision.** Every problem above traces to estimating
+   two unobserved trends at the sample endpoint. Dropping potential output (the nominal-GDP
+   framing) buys almost nothing — equilibrium velocity was doing the damage — but dropping
+   both is transformative: noise-to-signal falls from **1.09 to 0.06** and real-time sign
+   errors from **33% to zero**. And nothing is given up for it: raw money growth matches
+   the price gap in sample (standardised effect 0.268 vs 0.267, R² 0.169 vs 0.170) and
+   slightly beats it out of sample. On this evidence the filtering machinery adds
+   measurement noise without adding information.
+
+**What survives all of this.** Money carries real information about inflation, it is not a
+repackaged supply shock, and its grip is probably stronger than the paper's 0.10 suggests.
+But the P-star *gap* is the wrong way to read it: use money growth against potential
+nominal growth, which is near-noise-free and available the day M2 prints. On that measure
+money is currently running 7.7–8.7% annualized against a 4.25–5.0% speed limit — a solid
+observation, unlike the ±5pp band on the gap. Two caveats stand: the money–inflation
+relationship is genuinely regime-dependent (~0 on 1990–2019, strong on 2020–2026,
+significant at t = 3.14 even for a near-noise-free indicator), and no monetary indicator
+beats a plain AR(4) significantly out of sample.
 
 See **Findings on model structure** below for the detail.
 
