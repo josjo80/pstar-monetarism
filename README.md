@@ -4,6 +4,26 @@ Replication and extension of the P-star monetarist model in **"A return to monet
 (Peter Ireland, Stephen Miran, Nouriel Roubini, Hudson Bay Research, July 2026),
 built from public FRED and Center for Financial Stability data.
 
+## Paper
+
+A write-up of this work is in **[PAPER.md](PAPER.md)** — *"The P-Star Price Gap Is Not
+Identified in Real Time: A replication and extension of Ireland, Miran and Roubini (2026)."*
+Renders with figures on GitHub. Also generated for circulation:
+
+Run `make paper` to generate circulation copies (requires `pandoc`):
+
+| file | use |
+|---|---|
+| [`PAPER.md`](PAPER.md) | source; renders with figures on GitHub |
+| `paper/pstar-comment.docx` | for reviewer comments / track changes |
+| `paper/pstar-comment.html` | standalone read |
+
+The generated documents are gitignored — `PAPER.md` and the figures are the versioned
+source.
+
+Figures: `price_gaps.png` (replication), `frontier.png` (filter frontier),
+`uncertainty.png` (real-time reliability), `models.png` (current reading with bands).
+
 ## Summary
 
 The paper argues that monetary aggregates still carry information about future

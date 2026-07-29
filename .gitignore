@@ -11,5 +11,9 @@ data/Divisia.xlsx
 # ALFRED vintage cache, rebuilt with `python vintages.py --fetch`
 data/vintages/
 
+# Generated documents, rebuilt with `make paper`
+paper/pstar-comment.docx
+paper/pstar-comment.html
+
 # Generated output
 output/*.csv
