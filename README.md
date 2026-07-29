@@ -44,6 +44,17 @@ This repo reproduces that result and then pushes on it. Three findings:
    2026Q1 gaps spans zero. So does the paper's "approximately neutral" reading, and so
    does finding 2 above. The gap has genuinely risen; the level is not identified.
 
+5. **The paper's supply-shock explanation is half right, and the half that is right
+   isn't the half it emphasises.** Putting measured supply variables into the regression
+   for the first time: the price gap **survives** (γ rises slightly, 0.079 → 0.093, HAC
+   t = 2.8), so the money signal was not proxying for supply. But over 2025Q1–2026Q1,
+   **oil contributes ~0.00pp** — oil *fell* through 2025 — while **tariffs contribute
+   +1.17pp of the +2.03pp rise in PCE inflation** (and nothing in the GDP deflator, which
+   excludes imports). A residual of +4.0 to +4.7pp is explained by neither money nor
+   measured supply. Meanwhile the energy shock the paper hedged about has now arrived:
+   2026Q2 is the **third-largest oil shock since 1946**, implying +1.5 to +2.1pp on
+   inflation by 2027Q1 — an order of magnitude larger than the monetary signal.
+
 See **Findings on model structure** below for the detail.
 
 ## The model
@@ -228,6 +239,72 @@ That matters for reading γ as economics, not for forecasting with it.
 
 See `uncertainty.png`.
 
+### Is recent inflation really supply-driven? (`supply_shocks.py`)
+
+The paper's policy recommendation rests on an attribution it never estimates: the price
+gap is near zero, therefore recent inflation "is more likely to reflect a combination of
+adverse supply shocks — for instance, energy shocks, deglobalization shocks... — and
+measurement error." No supply variable appears in any regression; the residual is assigned
+a name. This tests it with Hamilton (1996) net oil price increases and the change in the
+effective tariff rate (BEA customs duties / imports).
+
+**The money signal survives.** γ is stable or slightly higher once supply is controlled
+for, in all six specifications, and the supply block is jointly significant:
+
+| Spec | γ base | γ + supply | HAC t | R² base | R² + supply | F(supply) |
+|---|---|---|---|---|---|---|
+| M2/GDP | 0.100 | 0.110 | 2.78 | 0.180 | 0.263 | 2.83 |
+| Divisia M2/GDP | 0.079 | 0.093 | 2.76 | 0.173 | 0.263 | 3.09 |
+| Divisia M4/GDP | 0.084 | 0.101 | 2.85 | 0.175 | 0.266 | 3.16 |
+| M2/PCE | 0.125 | 0.121 | 3.69 | 0.193 | 0.327 | 5.08 |
+| Divisia M2/PCE | 0.101 | 0.106 | 3.49 | 0.188 | 0.330 | 5.34 |
+| Divisia M4/PCE | 0.101 | 0.102 | 3.60 | 0.183 | 0.322 | 5.19 |
+
+Robust to dropping the contemporaneous supply terms (γ = 0.090–0.115) and to adding
+import prices and PPI, which push R² to 0.60 while γ holds at 0.067 (t = 3.08). This is a
+genuine point in the paper's favour: the price gap is not a repackaged supply shock.
+
+**But the attribution for 2025Q1–2026Q1 does not hold up.** Cumulated contributions to the
+change in inflation over the five quarters:
+
+| | GDP deflator | PCE |
+|---|---|---|
+| actual change | **+1.14** | **+2.03** |
+| inertia | −0.92 | −0.56 |
+| money (gap) | −1.13 | −1.34 |
+| **oil** | **+0.00** | **+0.01** |
+| **tariffs** | **−0.54** | **+1.17** |
+| constant | −0.93 | −1.27 |
+| **unexplained** | **+4.66** | **+4.00** |
+
+Two things fall out. The **deglobalization half of the story has real support** — tariffs
+account for over half the rise in PCE inflation, the measure the Fed targets — and the
+GDP/PCE split is economically coherent, since the GDP deflator excludes imports. The
+**energy half has none**: oil *fell* through 2025, from $71.84 in 2025Q1 to $59.64 in
+2025Q4, so there was no energy shock during the window the paper invokes one to explain.
+And a large residual survives: neither money nor measured supply explains most of the
+recent rise.
+
+**The energy shock is arriving now.** 2026Q2 NOPI is 28.5 — rank 3 of 321 quarters since
+1946, behind only 1974 and 1979H2 — as WTI went $59.64 → $71.98 → $95.75. Applying the
+estimated pass-through:
+
+| | GDP deflator | PCE |
+|---|---|---|
+| cumulated effect on inflation by 2027Q1 | **+1.52pp** | **+2.09pp** |
+| money signal (γ × 2026Q1 gap), for scale | +0.06pp | +0.06pp |
+
+The paper hedged on exactly this — "if oil prices continue to climb in the second half of
+2027, then policy ought to move from neutral to restrictive" — but it is happening about a
+year earlier than that. NOPI is asymmetric, so a partial reversal in oil would not net
+this off.
+
+**Caveats.** The 2025Q2 tariff move (+4.30pp) is the largest quarterly change since the
+series begins in 1959, against a next-largest of +1.50pp in 1971Q4, so the coefficient is
+extrapolated far outside the range that identifies it — indicative, not measured. And the
++4.66pp residual is about one residual standard deviation per quarter with 4 of 5
+quarters positive: persistent, but no single quarter is extraordinary.
+
 ## Known caveats
 
 **γ is not a constant.** See *Findings on model structure* above. The headline 0.10 is
@@ -268,6 +345,9 @@ python pstar_replication.py --selftest
 python vintages.py --fetch
 python vintages.py
 
+# supply-shock controls
+python supply_shocks.py
+
 # charts
 python plot_price_gaps.py --cfs data/Divisia.xlsx --out price_gaps.png
 python plot_uncertainty.py
@@ -291,6 +371,7 @@ Diagnostics (each takes the CFS path from `$CFS_XLSX`, default `data/Divisia.xls
 |---|---|
 | FRED | `GDP`, `GDPC1`, `PCECC96`, `PCECTPI`, `M2SL`, `GDPPOT`, `GDPNOW`, `PCEPI`, `PCEC96`, `USREC` |
 | FRED (H.8 / H.4.1) | `TOTBKCR`, `BUSLOANS`, `REALLN`, `CONSUMER`, `TOTLL`, `WALCL`, `WRESBAL` |
+| FRED (supply shocks) | `WTISPLC`, `B235RC1Q027SBEA`, `IMPGS`, `IR`, `PPIACO` |
 | ALFRED | quarterly vintages of `GDP`, `GDPC1`, `M2SL`, 1992–2026, cached in `data/vintages/` |
 | [CFS](https://centerforfinancialstability.org/amfm_data.php) | Divisia M2, M3, M4-, M4 (`Divisia.xlsx`) |
 
