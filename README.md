@@ -136,14 +136,42 @@ real GDP was revised +0.115% after publication, and the CFS workbook revises mon
 Filter start date, implicit vs chain-type deflator, and recursive vs Kalman one-sided
 HP were all ruled out (see `diagnostics/spec_sensitivity.py`).
 
-## Current reading (as of 2026-07-28)
+## Current reading (`current_reading.py`)
 
-All six gaps have crossed zero. 2026Q2 (nowcast — Q2 NIPAs not yet released, June
-Divisia not yet published) sits at +0.4 to +2.2, implying +5 to +18bp on inflation.
-Money growth is running 7.7–8.7% annualized over three months against a "speed limit"
-(potential + 2% target) of roughly 4.25–5.0%.
+Read on the **Hamilton filter**, which `filters.py` shows dominates the paper's HP(1600)
+on both real-time reliability and predictive power. 2026Q2 is a nowcast — the Q2 NIPAs are
+not out and June Divisia is not published — with a 90% band from the Hamilton revision
+distribution (sd 1.65pp, against 3.13pp for HP):
 
-See `price_gaps.png`.
+| Spec | 2026Q1 | 2026Q2 | 90% band | sign certain? |
+|---|---|---|---|---|
+| M2/GDP | −0.41 | +0.75 | [−1.35, +4.08] | no |
+| **Divisia M2/GDP** | +1.68 | **+3.00** | **[+0.89, +6.32]** | **yes** |
+| Divisia M4/GDP | −1.17 | +0.43 | [−1.68, +3.75] | no |
+| M2/PCE | +0.34 | +0.82 | [−1.28, +4.15] | no |
+| **Divisia M2/PCE** | +1.51 | **+2.31** | **[+0.20, +5.64]** | **yes** |
+| Divisia M4/PCE | −1.43 | −0.42 | [−2.53, +2.90] | no |
+
+Two of six now exclude zero; on HP(1600) none of them did. But the halved band comes with
+a catch: **the six specifications disagree far more under Hamilton than under HP** (mean
+cross-aggregate spread 4.8pp vs 1.8pp). The paper's claim that "the choice of monetary
+aggregate hardly matters" is a property of HP's heavy smoothing, not a robust finding.
+Divisia M2 says clearly expansionary; Divisia M4 says roughly neutral.
+
+Implied effect on inflation, with γ re-estimated on the Hamilton gap: +2 to +16bp,
+90% bands mostly spanning zero except the Divisia M2 specifications.
+
+The trend-free cross-check is unaffected by any of this — 4-quarter money growth to 2026Q2
+is 5.28% (M2), 6.10% (Divisia M2), 6.81% (Divisia M4), i.e. **+0.3 to +2.6pp above a
+4.25–5.0% speed limit**, measured with noise-to-signal 0.06.
+
+**Validation on the case that matters.** At 2021Q4, with inflation about to peak, the HP
+gap read **+2.2** in real time against a hindsight value of +9.2 — it decayed to neutral
+and called the all-clear. The Hamilton gap read **+18.7** against a hindsight of +21.8, and
+held an unmistakable warning through the entire episode. Across 2021 the Hamilton real-time
+average was +20.4 against a hindsight of +22.8; HP's was +5.0 against +9.1.
+
+See `uncertainty.png` and `price_gaps.png`.
 
 ## Findings on model structure
 
