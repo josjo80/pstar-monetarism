@@ -65,6 +65,16 @@ This repo reproduces that result and then pushes on it. Six findings:
    slightly beats it out of sample. On this evidence the filtering machinery adds
    measurement noise without adding information.
 
+7. **And the one thing that does rescue the gap is a different filter — the HP filter is
+   the problem, not the price gap.** Sweeping λ from 100 to 10⁶ traces a real tradeoff
+   (smoother trends revise less but track less), and λ = 1600 is not on the efficient part
+   of it — but no HP variant gets close. The **Hamilton (2018) regression filter dominates
+   every HP variant on both axes at once**: noise-to-signal 0.24 against 1.09, real-time
+   sign errors 11% against 33%, and *more* predictive power, not less (standardised effect
+   0.356 against 0.267, R² 0.249 against 0.170, out-of-sample gain 5.8% against 3.5%).
+   That is not a tradeoff, it is a strict improvement, and it is what Hamilton argued:
+   his filter is one-sided by construction, so it has no endpoint to revise.
+
 **What survives all of this.** Money carries real information about inflation, it is not a
 repackaged supply shock, and its grip is probably stronger than the paper's 0.10 suggests.
 But the P-star *gap* is the wrong way to read it: use money growth against potential
@@ -355,6 +365,44 @@ extrapolated far outside the range that identifies it — indicative, not measur
 +4.66pp residual is about one residual standard deviation per quarter with 4 of 5
 quarters positive: persistent, but no single quarter is extraordinary.
 
+### Can a better filter rescue the gap? (`filters.py`)
+
+**Yes — and this is the one extension that improves the paper's own object rather than
+replacing it.** Sweeping the HP smoothing parameter and adding the Hamilton (2018)
+regression filter, scored on real-time reliability (ALFRED vintages, M2/GDP) and on
+predicting the change in inflation (Divisia M2):
+
+| variant | noise/signal | sign err | std effect | HAC t | R² | OOS gain | DM t |
+|---|---|---|---|---|---|---|---|
+| HP λ=100 | 1.32 | 36% | 0.192 | 1.70 | 0.146 | 0.3% | −0.10 |
+| HP λ=400 | 1.16 | 38% | 0.243 | 2.30 | 0.162 | 2.9% | −1.08 |
+| **HP λ=1,600** (paper) | 1.09 | 33% | 0.267 | 2.51 | 0.170 | 3.5% | −1.13 |
+| HP λ=6,400 | 1.02 | 27% | 0.272 | 2.54 | 0.171 | 3.2% | −1.09 |
+| HP λ=25,600 | 0.89 | 28% | 0.265 | 2.54 | 0.168 | 2.6% | −0.97 |
+| HP λ=100,000 | 0.78 | 30% | 0.246 | 2.47 | 0.161 | 1.6% | −0.70 |
+| HP λ=1,000,000 | 0.74 | 38% | 0.187 | 2.06 | 0.145 | −0.4% | +0.25 |
+| Hamilton, full-sample coefs | 0.24 | 11% | 0.415 | 4.54 | 0.224 | 6.7% | −1.58 |
+| **Hamilton, recursive coefs** | **0.24** | **11%** | **0.356** | **2.81** | **0.249** | **5.8%** | **−1.73** |
+| money growth (no trend) | 0.06 | 0% | 0.268 | 2.74 | 0.169 | 3.8% | −1.29 |
+
+Within the HP family there is a genuine frontier — noise-to-signal falls monotonically in
+λ while predictive power peaks around λ = 6,400 — so the paper's λ = 1600 is dominated
+even inside its own family. But the interesting result is Hamilton, which beats every HP
+variant on *both* axes simultaneously. Its trend is a forecast made from data eight
+quarters earlier, so unlike the HP filter it has no endpoint to revise; the only revision
+comes from re-estimated coefficients and data.
+
+The recursive row is the honest one — applying full-sample Hamilton coefficients to
+historical dates is a look-ahead, and it inflates the standardised effect from 0.356 to
+0.415. Even after that correction Hamilton dominates λ = 1600 on every column, and its
+Diebold-Mariano statistic of −1.73 is the closest any indicator in this repo comes to
+beating an AR(4) (still short of two-sided significance; borderline one-sided).
+
+So the P-star *idea* is defensible and it is the HP filter that was letting it down. The
+practical choice is now between Hamilton (most predictive, decent real-time behaviour) and
+money growth (near-perfect real-time behaviour, less predictive) — not between the paper's
+gap and nothing.
+
 ### Can the endpoint problem be avoided rather than solved? (`nominal_gdp.py`)
 
 **Yes, almost entirely.** Every problem above traces to estimating two unobserved trends
@@ -430,6 +478,9 @@ python supply_shocks.py
 
 # fewer-latent-trends comparison (needs the vintage cache)
 python nominal_gdp.py
+
+# filter frontier: HP lambda sweep vs the Hamilton (2018) filter
+python filters.py
 
 # charts
 python plot_price_gaps.py --cfs data/Divisia.xlsx --out price_gaps.png
