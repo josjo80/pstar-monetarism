@@ -88,21 +88,58 @@ def main():
                   f"{go / att:19.3f}")
         print()
 
+    # ---- the falsification test -------------------------------------------
+    # If attenuation were the whole story, an indicator measured almost without
+    # error should show no regime dependence. Money growth is such an indicator
+    # (noise-to-signal 0.06, nominal_gdp.py). Run the same windows on it.
+    from nominal_gdp import build_indicators, regress
+    ind = build_indicators(df["ngdp"], df["rgdp"], df["DM2"])
+    rt_i = pd.read_csv("output/realtime_indicators.csv", parse_dates=["date"],
+                       index_col="date")
+    fin2 = build_indicators(df["ngdp"], df["rgdp"], df["M2"], two_sided=True)
+
     print("=" * 92)
+    print("FALSIFICATION: does the pattern survive in a near-noise-free indicator?")
+    print("=" * 92)
+    for k in ["price gap", "money growth"]:
+        jj = pd.DataFrame({"rt": rt_i[k], "fin": fin2[k]}).dropna()
+        nv = float((jj["fin"] - jj["rt"]).var())
+        print(f"\n--- {k}   (measurement-error variance {nv:.3f}) ---")
+        print(f"{'window':14s} {'sd':>7s} {'signal share':>13s} {'coef':>9s} "
+              f"{'HAC se':>8s} {'implied true':>13s}")
+        keep = {}
+        for a, b, nm in WINDOWS[:1] + WINDOWS[2:4]:
+            ss = ind[k].loc[a:b].dropna()
+            att = ss.var() / (ss.var() + nv)
+            rr, dd = regress(df, "p_gdp", ind[k], start=a, end=b)
+            c, se = rr.params["ind_l1"], rr.bse["ind_l1"]
+            keep[nm] = (c, se)
+            print(f"{nm:14s} {ss.std():7.2f} {att:13.3f} {c:+9.4f} {se:8.4f} "
+                  f"{c / att:13.4f}")
+        c1, s1 = keep["1990-2019"]
+        c2, s2 = keep["2020-2026"]
+        t = (c2 - c1) / np.sqrt(s1 ** 2 + s2 ** 2)
+        print(f"  difference 2020-2026 minus 1990-2019: {c2 - c1:+.4f}  t = {t:.2f}")
+
+    print("\n" + "=" * 92)
     print("READ")
     print("=" * 92)
-    print("For Divisia M2/GDP the 1967-1983 and 2020-2026 windows imply almost the")
-    print("same structural coefficient (~0.20) from very different observed ones")
-    print("(0.113 and 0.171), because the gap's variance differs by a factor of ~4.")
-    print("1990-2019 is consistent too: a signal share of 0.25 predicts gamma_obs of")
-    print("about 0.05, which sits inside that window's HAC confidence interval.")
+    print("Attenuation is real for the price gap: the 1967-1983 and 2020-2026 windows")
+    print("imply almost the same structural coefficient (~0.20) from very different")
+    print("observed ones, because the gap's variance differs by a factor of ~4, and")
+    print("1990-2019 is consistent with it too.")
     print()
-    print("So the regime dependence may not be regime dependence at all -- money's")
-    print("grip on inflation looks roughly constant, and what varies is whether the")
-    print("gap is large enough to be seen through ~3pp of measurement noise. The")
-    print("implication is that the paper's headline 0.10 understates the structural")
-    print("coefficient by roughly half. See the caveats in this file's docstring")
-    print("before leaning on the level of gamma_true.")
+    print("But it is NOT the whole story. Money growth carries almost no measurement")
+    print("error -- signal shares of 0.985 to 0.999, so essentially no attenuation --")
+    print("and it shows the same regime pattern, with the 2020-2026 vs 1990-2019")
+    print("difference significant at t ~ 3.1. Cleaning up the measurement error makes")
+    print("the regime dependence sharper, not weaker.")
+    print()
+    print("So: measurement error inflates how unstable the *price gap* coefficient")
+    print("looks, and correcting for it does suggest the paper's 0.10 understates the")
+    print("structural coefficient. But there is genuine regime dependence in the")
+    print("money-inflation relationship underneath, which attenuation cannot explain")
+    print("away. Both things are true.")
 
 
 if __name__ == "__main__":

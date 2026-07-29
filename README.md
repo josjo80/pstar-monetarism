@@ -164,13 +164,23 @@ together. The gap's own variance differs by a factor of ~4 across these windows,
 | 2020–2026 | 6.95 | 0.83 | 0.171 | **0.206** |
 
 The 1970s and the 2020s imply almost the same structural coefficient from very different
-observed ones. 1990–2019 is consistent too: a signal share of 0.25 predicts γ_obs ≈ 0.05,
-inside that window's HAC interval. On this reading money's grip on inflation is roughly
-constant and about **twice the paper's headline 0.10** — what varies is whether the gap is
-big enough to see through ~3pp of noise. Caveats matter: this is the single-regressor
-formula applied to a regression with four lags of the dependent variable, and it assumes
-noise uncorrelated with the true gap, which is doubtful for a filter revision. A proper IV
-or measurement-error-corrected estimate is the outstanding work.
+observed ones, and 1990–2019 is consistent too (a signal share of 0.25 predicts γ_obs ≈
+0.05, inside that window's HAC interval). This suggests the paper's headline 0.10
+understates the structural coefficient by roughly half.
+
+**But attenuation is not the whole story, and an earlier version of this README said it
+was.** The falsification test: if measurement error were the explanation, an indicator
+measured almost without error should show no regime dependence. Money growth is such an
+indicator — noise-to-signal 0.06, signal shares of 0.985–0.999 — and it shows the *same*
+pattern, with the 2020–2026 versus 1990–2019 difference significant at **t = 3.14**
+(against t = 2.66 for the price gap). Cleaning up the measurement error makes the regime
+dependence sharper, not weaker.
+
+Both things are true: measurement error inflates how unstable the *price gap* coefficient
+looks, and there is genuine regime dependence in the money–inflation relationship
+underneath it. Caveats on the correction itself: it is the single-regressor formula applied
+to a regression with four lags of the dependent variable, and it assumes noise uncorrelated
+with the true gap, which is doubtful for a filter revision.
 
 ### Does a money-demand V* fix it? (`money_demand.py`, `diagnostics/velocity_comparison.py`)
 
@@ -325,6 +335,36 @@ extrapolated far outside the range that identifies it — indicative, not measur
 +4.66pp residual is about one residual standard deviation per quarter with 4 of 5
 quarters positive: persistent, but no single quarter is extraordinary.
 
+### Can the endpoint problem be avoided rather than solved? (`nominal_gdp.py`)
+
+**Yes, almost entirely.** Every problem above traces to estimating two unobserved trends
+(V\* and Y\*) at the sample endpoint. Trying to estimate V\* *better* failed. This instead
+needs it less, using the identity that with n = p + x and n\* = m + v\*, the nominal-GDP
+gap n\* − n collapses to the velocity gap v\* − v — dropping Y\* entirely. One rung further,
+money growth relative to nominal GDP growth needs no trend at all.
+
+Real-time reliability down that ladder, from ALFRED vintages:
+
+| indicator | latent trends | sd(revision) | noise/signal | corr | sign errors |
+|---|---|---|---|---|---|
+| price gap | V\*, Y\* | 3.13 | 1.09 | 0.47 | 33% |
+| velocity gap (= nominal gap) | V\* | 3.48 | 0.99 | 0.55 | 37% |
+| **money growth, 4q** | **none** | **0.27** | **0.06** | **1.00** | **0%** |
+| money growth less nominal GDP growth | none | 0.75 | 0.13 | 0.99 | 4% |
+
+Dropping Y\* buys almost nothing — V\* was doing the damage. Dropping both is
+transformative: an 18-fold improvement in noise-to-signal, and zero real-time sign errors.
+
+And the filtering machinery buys nothing in exchange. In sample, predicting the change in
+GDP inflation with Divisia M2, raw money growth matches the price gap almost exactly
+(standardised effect 0.268 vs 0.267; R² 0.169 vs 0.170; HAC t 2.74 vs 2.51). Out of sample
+from 1990 it is slightly *better* (RMSE improvement over an AR(4) of 3.82% vs 3.48%,
+Diebold-Mariano t −1.29 vs −1.13; neither significant).
+
+Two things this does not fix. All four indicators show the same regime pattern — ~0 on
+1990–2019, strong on 2020–2026 — so that is in the monetary information itself, not in the
+filter. And no indicator beats an AR(4) significantly out of sample.
+
 ## Known caveats
 
 **γ is not a constant.** See *Findings on model structure* above. The headline 0.10 is
@@ -367,6 +407,9 @@ python vintages.py
 
 # supply-shock controls
 python supply_shocks.py
+
+# fewer-latent-trends comparison (needs the vintage cache)
+python nominal_gdp.py
 
 # charts
 python plot_price_gaps.py --cfs data/Divisia.xlsx --out price_gaps.png
