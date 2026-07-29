@@ -149,8 +149,28 @@ Asking a narrower question is more informative — is the paper's 0.10 consisten
 
 So: for the GDP-based specifications the 1990–2019 data reject γ = 0.10 outright. The
 PCE-based ones are simply uninformative over that window — wide enough to contain both 0
-and 0.10. All six are solidly positive over 2020–2026. What *triggers* the switch remains
-unidentified; none of the three state variables tested gives a significant threshold.
+and 0.10. All six are solidly positive over 2020–2026.
+
+**And the regime dependence may not be regime dependence at all** (`diagnostics/attenuation.py`).
+Once the measurement-error variance is known from the vintage reconstruction, classical
+attenuation — γ_obs = γ_true × var(gap)/(var(gap) + var(noise)) — ties the two findings
+together. The gap's own variance differs by a factor of ~4 across these windows, so a
+*constant* γ_true would look regime-dependent purely through attenuation:
+
+| Divisia M2/GDP | sd(gap) | signal share | γ observed | implied γ_true |
+|---|---|---|---|---|
+| 1967–1983 | 3.60 | 0.57 | 0.113 | **0.199** |
+| 1990–2019 | 1.79 | 0.25 | 0.002 | 0.006 |
+| 2020–2026 | 6.95 | 0.83 | 0.171 | **0.206** |
+
+The 1970s and the 2020s imply almost the same structural coefficient from very different
+observed ones. 1990–2019 is consistent too: a signal share of 0.25 predicts γ_obs ≈ 0.05,
+inside that window's HAC interval. On this reading money's grip on inflation is roughly
+constant and about **twice the paper's headline 0.10** — what varies is whether the gap is
+big enough to see through ~3pp of noise. Caveats matter: this is the single-regressor
+formula applied to a regression with four lags of the dependent variable, and it assumes
+noise uncorrelated with the true gap, which is doubtful for a filter revision. A proper IV
+or measurement-error-corrected estimate is the outstanding work.
 
 ### Does a money-demand V* fix it? (`money_demand.py`, `diagnostics/velocity_comparison.py`)
 
@@ -364,6 +384,7 @@ Diagnostics (each takes the CFS path from `$CFS_XLSX`, default `data/Divisia.xls
 | `diagnostics/regime.py` | Break tests, threshold models, HAC confidence intervals on γ. |
 | `diagnostics/velocity_comparison.py` | Does a money-demand V* beat the HP-trend V*? |
 | `diagnostics/uncertainty.py` | Bands on the gap, on γ, and on the implied inflation effect. |
+| `diagnostics/attenuation.py` | Does measurement error explain the regime dependence of γ? |
 
 ## Data
 
