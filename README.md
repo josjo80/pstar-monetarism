@@ -156,7 +156,32 @@ Two of six now exclude zero; on HP(1600) none of them did. But the halved band c
 a catch: **the six specifications disagree far more under Hamilton than under HP** (mean
 cross-aggregate spread 4.8pp vs 1.8pp). The paper's claim that "the choice of monetary
 aggregate hardly matters" is a property of HP's heavy smoothing, not a robust finding.
-Divisia M2 says clearly expansionary; Divisia M4 says roughly neutral.
+
+**Why they disagree, and why it qualifies the result.** The Hamilton velocity gap splits
+into two pieces, exactly (verified to 1e-6):
+
+> Hamilton velocity gap  =  expected 8-quarter velocity change (the filter's own
+> extrapolation of that series' history)  +  8-quarter excess money growth
+
+| aggregate | extrapolation | excess money growth | = gap |
+|---|---|---|---|
+| M2 | +1.93 | −1.07 | +0.86 |
+| **Divisia M2** | **+4.08** | −0.97 | **+3.10** |
+| **Divisia M4** | **+0.42** | +0.12 | **+0.54** |
+
+Actual money growth barely differs across the three (spread 1.2pp). The filter's
+extrapolation differs a lot (spread 3.7pp), and that is where essentially all the
+disagreement comes from. The Hamilton regression is fitted on 1967–2026, over which the
+three velocity series behaved very differently (mean 8-quarter change: M2 −0.71, Divisia M2
++1.39, Divisia M4 +1.56), while over the past decade all three have velocity *falling*.
+So the conditional means being extrapolated are partly stale, and stale in a
+series-specific way.
+
+This materially qualifies the Divisia M2 reading. Its +3.00 is +4.08 of extrapolated
+velocity rise *minus* 0.97 of actual excess money growth — the signal is coming from the
+filter's prior about velocity, not from what money did. That is the price of Hamilton's
+real-time stability: it does not chase the endpoint, but it inherits whatever the estimated
+long-run dynamics get wrong, as a level bias that differs by series. See `models.png`.
 
 Implied effect on inflation, with γ re-estimated on the Hamilton gap: +2 to +16bp,
 90% bands mostly spanning zero except the Divisia M2 specifications.
@@ -171,7 +196,7 @@ and called the all-clear. The Hamilton gap read **+18.7** against a hindsight of
 held an unmistakable warning through the entire episode. Across 2021 the Hamilton real-time
 average was +20.4 against a hindsight of +22.8; HP's was +5.0 against +9.1.
 
-See `uncertainty.png` and `price_gaps.png`.
+See `uncertainty.png`, `models.png` and `price_gaps.png`.
 
 ## Findings on model structure
 
@@ -509,6 +534,10 @@ python nominal_gdp.py
 
 # filter frontier: HP lambda sweep vs the Hamilton (2018) filter
 python filters.py
+
+# current reading on the Hamilton gap, with bands
+python current_reading.py
+python plot_models.py
 
 # charts
 python plot_price_gaps.py --cfs data/Divisia.xlsx --out price_gaps.png
