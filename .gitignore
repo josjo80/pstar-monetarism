@@ -14,6 +14,7 @@ data/vintages/
 # Generated documents, rebuilt with `make paper`
 paper/pstar-comment.docx
 paper/pstar-comment.html
+paper/Johnson-2026-pstar-real-time.pdf
 
 # Generated output
 output/*.csv

@@ -41,5 +41,9 @@ paper:
 page:
 	python tools/build_page.py
 
+# Print-ready PDF for SSRN / circulation (needs headless Chrome)
+pdf:
+	python tools/build_pdf.py
+
 clean:
-	rm -rf output/*.csv paper/pstar-comment.*
+	rm -rf output/*.csv paper/pstar-comment.* paper/Johnson-2026-*.pdf
