@@ -1,10 +1,14 @@
 # P-star replication — Ireland, Miran & Roubini (2026)
 
+[![SSRN](https://img.shields.io/badge/SSRN-7206999-0f5257)](https://ssrn.com/abstract=7206999)
+
 Replication and extension of the P-star monetarist model in **"A return to monetarism?"**
 (Peter Ireland, Stephen Miran, Nouriel Roubini, Hudson Bay Research, July 2026),
 built from public FRED and Center for Financial Stability data.
 
 ## Paper
+
+**SSRN working paper: [ssrn.com/abstract=7206999](https://ssrn.com/abstract=7206999)**
 
 A write-up of this work is in **[PAPER.md](PAPER.md)** — *"The P-Star Price Gap Is Not
 Identified in Real Time: A replication and extension of Ireland, Miran and Roubini (2026)."*

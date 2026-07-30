@@ -194,8 +194,10 @@ MAST = """
      &ldquo;A Return to Monetarism?&rdquo;</p>
   <div class="meta">
     <span class="who">Joshua Johnson</span>
-    <span>29 July 2026</span>
+    <span>Independent researcher</span>
+    <span>30 July 2026</span>
     <span>Comments welcome</span>
+    <span><a href="https://ssrn.com/abstract=7206999">SSRN 7206999 &#8599;</a></span>
     <span><a href="https://github.com/josjo80/pstar-monetarism">Code &amp; data &#8599;</a></span>
   </div>
 </div></header>
