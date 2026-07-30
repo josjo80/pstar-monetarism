@@ -2,9 +2,9 @@
 
 ### A replication and extension of Ireland, Miran and Roubini (2026)
 
-**Joshua Johnson**
+**Joshua Johnson** · Independent researcher
 
-*Draft, 29 July 2026. Comments welcome.*
+*Draft, 30 July 2026. Comments welcome.*
 
 Replication code and data: <https://github.com/josjo80/pstar-monetarism>
 
@@ -89,6 +89,13 @@ quantity theory, with Divisia aggregation, or with the choice of transactions va
 of which I find hold up. It is with a single implementation choice whose consequences the
 paper does not examine: the use of a one-sided Hodrick–Prescott filter with λ = 1600 to
 estimate two unobserved trends at the endpoint of the sample.
+
+The exercise is in the spirit of Ireland (2025), whose subtitle is "Measurement Issues and
+Recent Results" and whose argument is that measurement decisions drive what one concludes
+about the money–inflation link. I extend that argument one step: for a gauge intended to
+inform policy in real time, the binding measurement question is not which aggregate is used
+but how much of the resulting estimate survives contact with the vintage of data that
+actually existed when the decision had to be made.
 
 Section 2 documents the replication. Section 3 establishes that the resulting gap is not
 identified in real time. Section 4 traces the cause to latent-trend estimation. Section 5
@@ -579,7 +586,8 @@ Aggregation Theory." *Journal of Econometrics* 14(1), 11–48.
 Belongia, M. T. and P. N. Ireland (2016). "Money and Output: Friedman and Schwartz Revisited."
 *Journal of Money, Credit and Banking* 48(6), 1223–1266.
 
-Bordo, M. D., J. V. Duca and B. Jones (2025). Cited in Ireland, Miran and Roubini (2026).
+Bordo, M. D., J. V. Duca and B. E. Jones (2025). "Broad Divisia Money, Supply Pressures, and U.S.
+Inflation Following the Covid-19 Recession." *Macroeconomic Dynamics* 29, Article e133.
 
 Cochrane, J. H. (2023). *The Fiscal Theory of the Price Level.* Princeton University Press.
 
@@ -607,7 +615,8 @@ Hypothesis." *Econometrica* 64(2), 413–430.
 Hodrick, R. J. and E. C. Prescott (1997). "Postwar U.S. Business Cycles: An Empirical
 Investigation." *Journal of Money, Credit and Banking* 29(1), 1–16.
 
-Ireland, P. N. (2025). Cited in Ireland, Miran and Roubini (2026).
+Ireland, P. N. (2025). "Money Growth and Inflation in the Euro Area, UK, and USA: Measurement
+Issues and Recent Results." *Macroeconomic Dynamics* 29, Article e21.
 
 Ireland, P. N., S. Miran and N. Roubini (2026). "A Return to Monetarism?" Hudson Bay Capital
 Research, July.
