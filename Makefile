@@ -37,5 +37,9 @@ paper:
 	  --metadata title="The P-Star Price Gap Is Not Identified in Real Time" \
 	  -o paper/pstar-comment.html
 
+# Standalone typeset HTML with figures embedded as data URIs (for sharing)
+page:
+	python tools/build_page.py
+
 clean:
 	rm -rf output/*.csv paper/pstar-comment.*

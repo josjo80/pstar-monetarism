@@ -17,6 +17,7 @@ Run `make paper` to generate circulation copies (requires `pandoc`):
 | [`PAPER.md`](PAPER.md) | source; renders with figures on GitHub |
 | `paper/pstar-comment.docx` | for reviewer comments / track changes |
 | `paper/pstar-comment.html` | standalone read |
+| [shareable web page](https://claude.ai/code/artifact/bfd94648-c540-4bf9-8797-1dc0b087ba95) | typeset read-only version, figures embedded |
 
 The generated documents are gitignored — `PAPER.md` and the figures are the versioned
 source.

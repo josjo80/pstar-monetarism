@@ -238,8 +238,8 @@ difficulty is in the data, not in the choice of estimator for *V\**.
 ## 5. The filter, not the gap
 
 The remaining possibility is that λ = 1600 is simply wrong. I sweep λ from 100 to 10⁶ and add
-the Hamilton (2018) regression filter, which regresses *v_t* on *v_{t−8}* … *v_{t−11}* and
-calls the residual the cycle. Each variant is scored on real-time reliability (ALFRED
+the Hamilton (2018) regression filter, which regresses log velocity on its own values eight
+to eleven quarters earlier and calls the residual the cycle. Each variant is scored on real-time reliability (ALFRED
 vintages, M2/GDP) and on predicting the change in inflation (Divisia M2), in sample and out.
 
 **Table 4. The filter frontier**
