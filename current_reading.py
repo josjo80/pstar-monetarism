@@ -25,13 +25,11 @@ order of predictive power:
 import numpy as np
 import pandas as pd
 
-from pstar_replication import (fetch_fred, load_cfs, price_gap, build_nowcast_row,
-                               SPECS)
+from pstar_replication import fetch_fred, load_cfs, price_gap, SPECS
 from filters import hamilton_recursive, gaps_from
 from nominal_gdp import regress
 
 CFS = "data/Divisia.xlsx"
-NOWCAST_Q = pd.Timestamp("2026-04-01")
 NOM = {"p_gdp": "ngdp", "p_pce": "npce"}
 
 
@@ -49,19 +47,21 @@ def revision_band(pct=(5, 95)):
 
 def main():
     df = fetch_fred().join(load_cfs(CFS), how="left")
-    df = df.dropna(subset=["rgdp", "p_gdp", "M2"]).loc["1967-01-01":"2026-03-31"]
-    df2, q, info = build_nowcast_row(df, CFS, verbose=False)
+    df = df.dropna(subset=["rgdp", "p_gdp", "M2"]).loc["1967-01-01":]
+    df2 = df
+    q = df.index[-1]
+    prev = df.index[-2]
 
     (lo, hi), rsd = revision_band()
     print("=" * 96)
     print("CURRENT STANCE OF MONETARY POLICY, ON THE HAMILTON (2018) FILTER")
     print("=" * 96)
-    print(f"nowcast quarter {q.date()}: real GDP {info['rgdp_growth']:.2f}% SAAR "
-          f"(GDPNow), GDP deflator {info['deflator_infl']:.2f}% (assumption)")
+    print(f"latest complete quarter: {q.date()} (published data, no nowcast)")
     print(f"Hamilton revision distribution: sd {rsd:.2f}pp, 90% band "
           f"[{lo:+.2f}, {hi:+.2f}]  (HP(1600) equivalent: sd 3.13pp)\n")
 
-    print(f"{'spec':18s} {'2026Q1':>8s} {'2026Q2':>8s} {'90% band on 2026Q2':>24s} "
+    print(f"{'spec':18s} {prev.date().strftime('%YQ%m')[:4]+'Q'+str((prev.month-1)//3+1):>8s} "
+          f"{str(q.year)+'Q'+str((q.month-1)//3+1):>8s} {'90% band on latest':>24s} "
           f"{'sign certain?':>14s}")
     gaps = {}
     for label, mcol, rcol, pcol, tag in SPECS:
@@ -70,7 +70,7 @@ def main():
         now = float(g.loc[q])
         band = (now + lo, now + hi)
         certain = "yes" if band[0] > 0 or band[1] < 0 else "NO -- spans 0"
-        print(f"{label + '/' + tag:18s} {g.loc['2026-01-01']:8.2f} {now:8.2f} "
+        print(f"{label + '/' + tag:18s} {g.loc[prev]:8.2f} {now:8.2f} "
               f"{f'[{band[0]:+.2f}, {band[1]:+.2f}]':>24s} {certain:>14s}")
 
     print("\n" + "=" * 96)
@@ -83,7 +83,7 @@ def main():
         now = float(g.loc[q])
         band = (now - 4.06, now + 6.34)
         certain = "yes" if band[0] > 0 or band[1] < 0 else "NO -- spans 0"
-        print(f"{label + '/' + tag:18s} {g.loc['2026-01-01']:8.2f} {now:8.2f} "
+        print(f"{label + '/' + tag:18s} {g.loc[prev]:8.2f} {now:8.2f} "
               f"{f'[{band[0]:+.2f}, {band[1]:+.2f}]':>24s} {certain:>14s}")
 
     print("\n" + "=" * 96)
@@ -93,7 +93,7 @@ def main():
           f"{'90% band':>20s}")
     for label, mcol, rcol, pcol, tag in SPECS:
         g = gaps[f"{label}/{tag}"]
-        r, d = regress(df, pcol, g.loc[:"2026-03-31"])
+        r, d = regress(df, pcol, g)
         gam, se = r.params["ind_l1"], r.bse["ind_l1"]
         now = float(g.loc[q])
         lo_e = 100 * (gam - 1.645 * se) * (now + lo)

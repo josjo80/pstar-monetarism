@@ -122,7 +122,8 @@ FRONT = f"""
 <p class="sub">A replication and extension of Ireland, Miran and Roubini (2026),
 &ldquo;A Return to Monetarism?&rdquo;</p>
 <p class="byline"><b>Joshua Johnson</b> &nbsp;&middot;&nbsp; Independent researcher</p>
-<p class="dateline">This version: 30 July 2026 &nbsp;&middot;&nbsp; Comments welcome &nbsp;&middot;&nbsp;
+<p class="dateline">This version: 4 August 2026 &nbsp;&middot;&nbsp; supersedes the 30 July draft, in which
+2026Q2 was a nowcast &nbsp;&middot;&nbsp; SSRN 7206999 &nbsp;&middot;&nbsp;
 Replication code and data: github.com/josjo80/pstar-monetarism</p>
 <div class="fm">
   <h3>Abstract</h3>

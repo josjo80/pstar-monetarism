@@ -46,8 +46,8 @@ This repo reproduces that result and then pushes on it. Six findings:
    traces to data vintage (a +0.115% revision to 2026Q1 real GDP after publication), not
    to method.
 
-2. **The conclusion has already expired.** Using data available at 2026-07-28, the gaps
-   have crossed zero: 2026Q2 sits at +0.4 to +2.2 depending on specification. Money is
+2. **The conclusion has already expired.** On published 2026Q2 data the gaps have risen
+   about 3pp from their 2023 trough, though the level remains within the noise band. Money is
    growing 7.7–8.7% annualized over three months against a "speed limit" (potential + 2%
    target) of 4.25–5.0%. The source is bank lending, not the Fed — the balance sheet is
    flat and reserves are down 10% year-over-year, while C&I loans are growing at a 13.9%
@@ -165,22 +165,26 @@ HP were all ruled out (see `diagnostics/spec_sensitivity.py`).
 ## Current reading (`current_reading.py`)
 
 Read on the **Hamilton filter**, which `filters.py` shows dominates the paper's HP(1600)
-on both real-time reliability and predictive power. 2026Q2 is a nowcast — the Q2 NIPAs are
-not out and June Divisia is not published — with a 90% band from the Hamilton revision
-distribution (sd 1.65pp, against 3.13pp for HP):
+on both real-time reliability and predictive power. Published data through 2026Q2, with a
+90% band from the Hamilton revision distribution (sd 1.65pp, against 3.13pp for HP).
 
-| Spec | 2026Q1 | 2026Q2 | 90% band | sign certain? |
+*An earlier version of this table reported 2026Q2 as a nowcast, and two specifications then
+excluded zero. The Q2 national accounts landed with GDP deflator inflation at 6.09% against
+an assumed 3.24%, which moved every gap down by up to 1.2pp and reversed that conclusion.
+See PAPER.md §8.1 — the episode is the repo's own thesis operating in real time.*
+
+| Spec | 2026Q1 | 2026Q2 | 90% band | excludes zero? |
 |---|---|---|---|---|
-| M2/GDP | −0.41 | +0.75 | [−1.35, +4.08] | no |
-| **Divisia M2/GDP** | +1.68 | **+3.00** | **[+0.89, +6.32]** | **yes** |
-| Divisia M4/GDP | −1.17 | +0.43 | [−1.68, +3.75] | no |
-| M2/PCE | +0.34 | +0.82 | [−1.28, +4.15] | no |
-| **Divisia M2/PCE** | +1.51 | **+2.31** | **[+0.20, +5.64]** | **yes** |
-| Divisia M4/PCE | −1.43 | −0.42 | [−2.53, +2.90] | no |
+| M2/GDP | −0.41 | +0.06 | [−2.05, +3.38] | no |
+| Divisia M2/GDP | +1.33 | +1.80 | [−0.31, +5.12] | no |
+| Divisia M4/GDP | −1.40 | −0.71 | [−2.81, +2.61] | no |
+| M2/PCE | +0.34 | +1.01 | [−1.10, +4.33] | no |
+| Divisia M2/PCE | +1.12 | +1.94 | [−0.17, +5.26] | no |
+| Divisia M4/PCE | −1.62 | −0.64 | [−2.74, +2.69] | no |
 
-Two of six now exclude zero; on HP(1600) none of them did. But the halved band comes with
+**No specification excludes zero**, on this filter or on HP(1600). But the halved band comes with
 a catch: **the six specifications disagree far more under Hamilton than under HP** (mean
-cross-aggregate spread 4.8pp vs 1.8pp). The paper's claim that "the choice of monetary
+cross-aggregate spread 4.6pp vs 1.8pp). The paper's claim that "the choice of monetary
 aggregate hardly matters" is a property of HP's heavy smoothing, not a robust finding.
 
 **Why they disagree, and why it qualifies the result.** The Hamilton velocity gap splits
@@ -203,17 +207,17 @@ three velocity series behaved very differently (mean 8-quarter change: M2 −0.7
 So the conditional means being extrapolated are partly stale, and stale in a
 series-specific way.
 
-This materially qualifies the Divisia M2 reading. Its +3.00 is +4.08 of extrapolated
-velocity rise *minus* 0.97 of actual excess money growth — the signal is coming from the
-filter's prior about velocity, not from what money did. That is the price of Hamilton's
+This materially qualifies the Divisia M2 reading. Its +1.80 is +3.78 of extrapolated
+velocity rise *minus* 1.86 of actual excess money growth — what positive signal there is
+comes from the filter's prior about velocity, not from what money did. That is the price of Hamilton's
 real-time stability: it does not chase the endpoint, but it inherits whatever the estimated
 long-run dynamics get wrong, as a level bias that differs by series. See `models.png`.
 
-Implied effect on inflation, with γ re-estimated on the Hamilton gap: +2 to +16bp,
-90% bands mostly spanning zero except the Divisia M2 specifications.
+Implied effect on inflation, with γ re-estimated on the Hamilton gap: −3 to +11bp, every
+90% band spanning zero.
 
 The trend-free cross-check is unaffected by any of this — 4-quarter money growth to 2026Q2
-is 5.28% (M2), 6.10% (Divisia M2), 6.81% (Divisia M4), i.e. **+0.3 to +2.6pp above a
+is 5.28% (M2), 5.83% (Divisia M2), 6.55% (Divisia M4), i.e. **+0.3 to +2.3pp above a
 4.25–5.0% speed limit**, measured with noise-to-signal 0.06.
 
 **Validation on the case that matters.** At 2021Q4, with inflation about to peak, the HP
@@ -582,6 +586,14 @@ Diagnostics (each takes the CFS path from `$CFS_XLSX`, default `data/Divisia.xls
 | `diagnostics/velocity_comparison.py` | Does a money-demand V* beat the HP-trend V*? |
 | `diagnostics/uncertainty.py` | Bands on the gap, on γ, and on the implied inflation effect. |
 | `diagnostics/attenuation.py` | Does measurement error explain the regime dependence of γ? |
+
+## Reproducibility note
+
+The cached `data/Divisia.xlsx` tracks the current CFS vintage, which the CFS revises monthly.
+The SSRN v1 paper (30 July 2026) was computed on the June 2026 vintage with 2026Q2 as a
+nowcast; v2 (4 August 2026) uses the August vintage with 2026Q2 published. A fresh clone
+reproduces the current version, not earlier ones — the ALFRED vintage cache in
+`data/vintages/` is the only part of the pipeline that is vintage-pinned by construction.
 
 ## Data
 

@@ -89,11 +89,9 @@ def main():
 
     # ---- bottom: current signal against the band ----
     style(ax2)
-    from pstar_replication import build_nowcast_row
     df = fetch_fred().join(load_cfs(args.cfs), how="left")
-    df = df.dropna(subset=["rgdp", "p_gdp", "M2"]).loc["1967-01-01":"2026-03-31"]
-    df2, qn, _info = build_nowcast_row(df, args.cfs, verbose=False)
-    g = hamilton_recursive(df2["ngdp"], df2["rgdp"], df2["DM2"]).loc["2023-01-01":]
+    df = df.dropna(subset=["rgdp", "p_gdp", "M2"]).loc["1967-01-01":]
+    g = hamilton_recursive(df["ngdp"], df["rgdp"], df["DM2"]).loc["2023-01-01":]
     finH = gaps_from(df["ngdp"], df["rgdp"], df["M2"], ("hamilton", None), two_sided=True)
     revH = (finH - rf["Hamilton (2018)"]).dropna()
     revH = revH - revH.mean()
@@ -101,21 +99,17 @@ def main():
 
     ax2.fill_between(g.index, g + lo_q, g + hi_q, color=BANDC, alpha=0.16,
                      lw=0, zorder=2, label="90% band from the revision distribution")
-    ax2.plot(g.index[:-1], g.iloc[:-1], color=BANDC, lw=2.2, marker="o", ms=4.5,
+    ax2.plot(g.index, g, color=BANDC, lw=2.2, marker="o", ms=4.5,
              mec=SURFACE, mew=1.2, zorder=4, label="Divisia M2 / GDP, Hamilton filter")
-    ax2.plot(g.index[-2:], g.iloc[-2:], color=BANDC, lw=2.2, ls=":", zorder=4)
-    ax2.plot([g.index[-1]], [g.iloc[-1]], marker="o", ms=7.5, mfc=SURFACE, mec=BANDC,
-             mew=2.0, ls="none", color=BANDC, zorder=5,
-             label="2026Q2 nowcast (Q2 NIPAs not yet released)")
-    ax2.annotate(f"  {g.iloc[-1]:+.2f}\n  90% band\n  [{g.iloc[-1] + lo_q:+.2f}, "
+    ax2.annotate(f"  2026Q2 {g.iloc[-1]:+.2f}\n  90% band\n  [{g.iloc[-1] + lo_q:+.2f}, "
                  f"{g.iloc[-1] + hi_q:+.2f}]", xy=(g.index[-1], g.iloc[-1]),
                  color=INK2, fontsize=9, va="center", linespacing=1.5)
-    titled(ax2, "On the better filter, the current signal clears zero",
+    titled(ax2, "Even on the better filter, the current signal does not clear zero",
            "Divisia M2 / GDP on the Hamilton filter, with a 90% band from its own revision "
-           "distribution.\nTwo of the six specifications now exclude zero; on HP(1600) none of "
-           "them did.")
+           "distribution.\nOn published 2026Q2 data no specification excludes zero, on either "
+           "filter.")
     ax2.set_ylabel("percentage points", color=MUTED, fontsize=9.5)
-    ax2.set_xlim(pd.Timestamp("2022-11-15"), pd.Timestamp("2026-12-01"))
+    ax2.set_xlim(pd.Timestamp("2022-11-15"), pd.Timestamp("2027-02-01"))
     leg2 = ax2.legend(frameon=False, fontsize=9.5, loc="lower right", handlelength=1.6)
     for t in leg2.get_texts():
         t.set_color(INK2)

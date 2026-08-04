@@ -22,7 +22,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-from pstar_replication import fetch_fred, load_cfs, build_nowcast_row
+from pstar_replication import fetch_fred, load_cfs
 from filters import hamilton_cycle, hamilton_recursive, gaps_from, HAM_H, HAM_P
 
 # dataviz reference palette, categorical slots 1-3 (validated all-pairs, light)
@@ -54,8 +54,8 @@ def main():
     args = ap.parse_args()
 
     df = fetch_fred().join(load_cfs(args.cfs), how="left")
-    df = df.dropna(subset=["rgdp", "p_gdp", "M2"]).loc["1967-01-01":"2026-03-31"]
-    df2, q, _info = build_nowcast_row(df, args.cfs, verbose=False)
+    df = df.dropna(subset=["rgdp", "p_gdp", "M2"]).loc["1967-01-01":]
+    df2, q = df, df.index[-1]
 
     rf = pd.read_csv("output/realtime_filters.csv", parse_dates=["date"], index_col="date")
     finH = gaps_from(df["ngdp"], df["rgdp"], df["M2"], ("hamilton", None), two_sided=True)
@@ -73,8 +73,8 @@ def main():
              color=INK, fontsize=14, fontweight="bold", va="bottom")
     fig.text(0.06, 0.905,
              "90% bands from the filter's own revision distribution (sd 1.65pp, against 3.13pp for the "
-             "paper's HP filter). Hollow marker = 2026Q2\nnowcast. Only Divisia M2 clears zero — and the "
-             "bottom-left panel shows that is mostly extrapolation, not money.",
+             "paper's HP filter).\nPublished data through 2026Q2. No specification now clears zero, and the "
+             "bottom-left panel shows why the aggregates disagree.",
              color=INK2, fontsize=9.5, va="bottom", linespacing=1.5)
 
     gaps = {}
@@ -85,10 +85,9 @@ def main():
         gaps[m] = g
         c = COLS[m]
         ax.fill_between(g.index, g + lo_q, g + hi_q, color=c, alpha=0.15, lw=0, zorder=2)
-        ax.plot(g.index[:-1], g.iloc[:-1], color=c, lw=1.9, zorder=3)
-        ax.plot(g.index[-2:], g.iloc[-2:], color=c, lw=1.9, ls=":", zorder=3)
-        ax.plot([g.index[-1]], [g.iloc[-1]], marker="o", ms=7, mfc=SURFACE, mec=c,
-                mew=2.0, zorder=4)
+        ax.plot(g.index, g, color=c, lw=1.9, zorder=3)
+        ax.plot([g.index[-1]], [g.iloc[-1]], marker="o", ms=6, color=c,
+                mec=SURFACE, mew=1.4, zorder=4)
         ax.set_ylim(-22, 32)
         ax.set_xlim(pd.Timestamp("2014-10-01"), pd.Timestamp("2026-10-01"))
         ax.set_title(f"{NAMES[m]}   2026Q2 {g.iloc[-1]:+.2f}  "
@@ -135,9 +134,9 @@ def main():
     ax.text(0, 1.19, "Why the aggregates disagree", transform=ax.transAxes,
             color=INK, fontsize=12.5, fontweight="bold", va="bottom")
     ax.text(0, 1.04,
-            "The Hamilton velocity gap splits exactly into these two pieces. Actual money growth barely "
-            "differs across the three\n(spread 1.2pp); the filter's extrapolation of each series' own "
-            "velocity history differs a lot (spread 3.7pp).",
+            "The Hamilton velocity gap splits exactly into these two pieces. Excess money growth is "
+            "negative for all three and\ndiffers by 1.1pp; the filter's extrapolation of each series' own "
+            "velocity history differs by 3.6pp.",
             transform=ax.transAxes, color=INK2, fontsize=9, va="bottom", linespacing=1.5)
     leg = ax.legend(frameon=False, fontsize=9, loc="upper right", handlelength=1.4)
     for t_ in leg.get_texts():
@@ -149,11 +148,9 @@ def main():
     ax.axhspan(SPEED_LO, SPEED_HI, color=SHADE, zorder=1)
     for m in ["M2", "DM2", "DM4"]:
         g4 = (100 * (df2[m] / df2[m].shift(4) - 1)).loc["2015-01-01":]
-        ax.plot(g4.index[:-1], g4.iloc[:-1], color=COLS[m], lw=1.9, zorder=3,
-                label=NAMES[m])
-        ax.plot(g4.index[-2:], g4.iloc[-2:], color=COLS[m], lw=1.9, ls=":", zorder=3)
-        ax.plot([g4.index[-1]], [g4.iloc[-1]], marker="o", ms=6.5, mfc=SURFACE,
-                mec=COLS[m], mew=1.8, zorder=4)
+        ax.plot(g4.index, g4, color=COLS[m], lw=1.9, zorder=3, label=NAMES[m])
+        ax.plot([g4.index[-1]], [g4.iloc[-1]], marker="o", ms=6, color=COLS[m],
+                mec=SURFACE, mew=1.4, zorder=4)
     ax.set_xlim(pd.Timestamp("2014-10-01"), pd.Timestamp("2026-10-01"))
     ax.annotate("shaded = speed limit\n(potential + 2%)",
                 xy=(pd.Timestamp("2017-06-01"), (SPEED_LO + SPEED_HI) / 2),
@@ -172,8 +169,7 @@ def main():
 
     fig.text(0.06, 0.02,
              "Sources: FRED; CFS Divisia; ALFRED vintages 1992-2026. Hamilton (2018) filter, h = 8, p = 4, "
-             "coefficients estimated on an expanding window.\n2026Q2 is a nowcast: Q2 NIPAs not yet "
-             "released, June Divisia not yet published.",
+             "coefficients estimated on an expanding window.\nPublished data through 2026Q2.",
              color=MUTED, fontsize=8, linespacing=1.5)
 
     fig.savefig(args.out, facecolor=SURFACE)

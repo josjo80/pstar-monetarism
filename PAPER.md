@@ -4,7 +4,8 @@
 
 **Joshua Johnson** · Independent researcher
 
-*Draft, 30 July 2026. Comments welcome.*
+*Draft, 4 August 2026. Comments welcome. This version replaces the 30 July draft, in
+which the 2026Q2 figures were a nowcast; they are now published data. See Section 8.1.*
 
 Replication code and data: <https://github.com/josjo80/pstar-monetarism>
 
@@ -55,12 +56,12 @@ oil shock since 1946, implying +1.5 to +2.1pp on inflation by 2027Q1 — an orde
 larger than any monetary signal here, and arriving roughly a year earlier than the paper's
 own hedge anticipated.
 
-On the paper's preferred filter the current stance cannot be distinguished from neutral. On
-the better filter, two of six specifications clear zero — but their signal comes largely
-from the filter's extrapolation of past velocity rather than from money, and the six
-specifications disagree far more than under HP, which undercuts the paper's claim that the
-choice of aggregate "hardly matters." The reading I would defend is the one requiring no
-filter at all: money growing 5.3–6.8% over four quarters against a 4.25–5.0% speed limit,
+On both filters the current stance is indistinguishable from neutral: on 2026Q2 data no
+specification has a 90% band excluding zero. The six specifications also disagree far more
+under Hamilton than under HP, which undercuts the paper's claim that the choice of aggregate
+"hardly matters," and what signal there is comes largely from the filter's extrapolation of
+past velocity rather than from money. The reading I would defend is the one requiring no
+filter at all: money growing 5.3–6.6% over four quarters against a 4.25–5.0% speed limit,
 i.e. **modestly above sustainable, with all aggregates agreeing.**
 
 *JEL: E31, E41, E52, C22. Keywords: P-star, Divisia monetary aggregates, real-time data,
@@ -162,8 +163,8 @@ I regard the replication as successful and the discrepancies as immaterial.
 
 ![Figure 1](price_gaps.png)
 
-**Figure 1.** P-star price gaps, 1967Q1–2026Q1, GDP basis, all three monetary aggregates,
-with the 2026Q2 nowcast. Grey crosses mark IMR's published 2026Q1 values.
+**Figure 1.** P-star price gaps, 1967Q1–2026Q2, GDP basis, all three monetary aggregates.
+Grey crosses mark IMR's published 2026Q1 values.
 
 ## 3. The gap is not identified in real time
 
@@ -387,6 +388,13 @@ of 2027, then policy ought to move from neutral to restrictive" — but it is oc
 a year earlier. Because the net-oil-price-increase transform is asymmetric, a partial reversal
 would not net this off.
 
+The first quarter of evidence is consistent with it. GDP deflator inflation rose from 3.53%
+in 2026Q1 to **6.09%** in 2026Q2, and PCE inflation from 4.51% to 5.00%. One quarter is not a
+test of a four-quarter projection, and no part of that increase is here attributed to any
+particular cause. But the direction and rough scale are what the oil pass-through implies,
+and they are not what the monetary signal implies: over the same quarter the price gap was
+worth between −3 and +11 basis points on inflation.
+
 ## 7. Coefficient stability and attenuation
 
 IMR describe γ ≈ 0.10 as "strikingly consistent" and offer it as a rule of thumb. Estimated
@@ -423,51 +431,53 @@ that attenuation cannot explain away.
 
 ## 8. The current reading
 
-**Table 8. Stance of policy, Hamilton filter, 2026Q2 (nowcast) with 90% bands**
+**Table 8. Stance of policy, Hamilton filter, published data through 2026Q2**
 
 | Spec | 2026Q1 | 2026Q2 | 90% band | excludes zero? |
 |---|---|---|---|---|
-| M2/GDP | −0.41 | +0.75 | [−1.35, +4.08] | no |
-| **Divisia M2/GDP** | +1.68 | **+3.00** | **[+0.89, +6.32]** | **yes** |
-| Divisia M4/GDP | −1.17 | +0.43 | [−1.68, +3.75] | no |
-| M2/PCE | +0.34 | +0.82 | [−1.28, +4.15] | no |
-| **Divisia M2/PCE** | +1.51 | **+2.31** | **[+0.20, +5.64]** | **yes** |
-| Divisia M4/PCE | −1.43 | −0.42 | [−2.53, +2.90] | no |
+| M2/GDP | −0.41 | +0.06 | [−2.05, +3.38] | no |
+| Divisia M2/GDP | +1.33 | +1.80 | [−0.31, +5.12] | no |
+| Divisia M4/GDP | −1.40 | −0.71 | [−2.81, +2.61] | no |
+| M2/PCE | +0.34 | +1.01 | [−1.10, +4.33] | no |
+| Divisia M2/PCE | +1.12 | +1.94 | [−0.17, +5.26] | no |
+| Divisia M4/PCE | −1.62 | −0.64 | [−2.74, +2.69] | no |
 
-2026Q2 is a nowcast: the Q2 national accounts were not released at the time of writing and
-June Divisia was unpublished. On IMR's HP filter, no specification excludes zero.
+**No specification excludes zero**, on this filter or on IMR's, where the same six gaps run
++0.38 to +1.64 against a band roughly three times as wide. The implied effect on inflation
+is −3 to +11 basis points, every interval spanning zero.
 
-Two of six clearing zero should be discounted, for a reason worth stating precisely. The
+Even so, the differences across aggregates are large — Divisia M2 reads +1.80 while Divisia
+M4 reads −0.71 — and that gap is worth stating precisely, because it is not about money. The
 Hamilton velocity gap decomposes exactly (verified to 10⁻⁶) into an expected 8-quarter
 velocity change implied by the series' own fitted dynamics, plus actual 8-quarter excess money
 growth:
 
 | aggregate | extrapolation | excess money growth | = gap |
 |---|---|---|---|
-| M2 | +1.93 | −1.07 | +0.86 |
-| **Divisia M2** | **+4.08** | −0.97 | **+3.10** |
-| **Divisia M4** | **+0.42** | +0.12 | **+0.54** |
+| M2 | +1.95 | −1.78 | +0.17 |
+| **Divisia M2** | **+3.78** | −1.86 | **+1.92** |
+| **Divisia M4** | **+0.18** | −0.77 | **−0.59** |
 
-Actual money growth barely differs across aggregates (spread 1.2pp); the extrapolation
-differs by 3.7pp, and that is where essentially all the disagreement originates. The Hamilton
-regression is fitted over 1967–2026, across which mean 8-quarter velocity changes were −0.71
-(M2), +1.39 (Divisia M2) and +1.56 (Divisia M4), while over the past decade all three have
-velocity falling. The extrapolated conditional means are therefore partly stale, and stale in
-a series-specific way. **The Divisia M2 reading of +3.00 is +4.08 of extrapolated velocity
-rise less 0.97 of actual excess money growth: the signal comes from the filter's prior about
-velocity, not from money.**
+Actual excess money growth is negative for all three and differs across them by 1.1pp; the
+extrapolation differs by 3.6pp, and that is where essentially all the disagreement
+originates. The Hamilton regression is fitted over 1967–2026, across which mean 8-quarter
+velocity changes were −0.71 (M2), +1.39 (Divisia M2) and +1.56 (Divisia M4), while over the
+past decade all three have velocity falling. The extrapolated conditional means are therefore
+partly stale, and stale in a series-specific way. **The Divisia M2 reading of +1.80 is +3.78
+of extrapolated velocity rise less 1.86 of actual excess money growth: what positive signal
+there is comes from the filter's prior about velocity, not from money.**
 
 This is the price of Hamilton's real-time stability. It does not chase the endpoint, but it
 inherits errors in the estimated long-run dynamics as a series-specific level bias. It also
 means IMR's claim that "the choice of monetary aggregate hardly matters" is a property of HP's
-heavy smoothing rather than a robust finding: the mean cross-aggregate spread is 4.8pp under
+heavy smoothing rather than a robust finding: the mean cross-aggregate spread is 4.6pp under
 Hamilton against 1.8pp under HP.
 
 The reading I would defend requires no filter. Four-quarter money growth to 2026Q2 is 5.28%
-(M2), 6.10% (Divisia M2) and 6.81% (Divisia M4), against a speed limit — potential real growth
-plus the 2% target — of 4.25–5.0%. That is **+0.3 to +2.6pp above sustainable, with all three
-aggregates agreeing**, measured at noise-to-signal 0.06. On three-month annualised rates the
-figures are higher still (M2 8.7%, Divisia M2 7.7%, Divisia M4 8.6%).
+(M2), 5.83% (Divisia M2) and 6.55% (Divisia M4), against a speed limit — potential real growth
+plus the 2% target — of 4.25–5.0%. That is **+0.3 to +2.3pp above sustainable, with all three
+aggregates agreeing**, measured at noise-to-signal 0.06. On three-month annualised rates to
+June the figures are higher still (M2 8.7%, Divisia M2 8.3%, Divisia M4 9.1%).
 
 The source is bank lending rather than the central bank: over the year to June 2026 the
 Federal Reserve's balance sheet grew 1.3% and reserve balances *fell* 9.9%, while total bank
@@ -479,6 +489,39 @@ at a six-month annualised rate.
 **Figure 4.** Top: the Hamilton price gap by aggregate with 90% revision bands. Bottom left:
 the decomposition explaining the cross-aggregate disagreement. Bottom right: the trend-free
 reading against the speed limit.
+
+### 8.1 An unplanned test of the paper's own thesis
+
+The 30 July draft of this paper reported 2026Q2 as a nowcast, since the national accounts
+had not been released and June Divisia was unpublished. Both landed days later, which
+supplies an out-of-sample test of the argument on the argument's own numbers.
+
+The real-side nowcast was almost exact: real GDP growth came in at 1.49% against the 1.54%
+taken from GDPNow. The price-side assumption was not. I had assumed a GDP deflator running
+at 3.24%, the trailing four-quarter mean; the actual was **6.09%**, and PCE inflation came in
+at 5.00%. Because the gap moves inversely with the price level, every estimate fell:
+
+| Spec | 30 July nowcast | published data | revision |
+|---|---|---|---|
+| M2/GDP | +0.75 | +0.06 | −0.69 |
+| Divisia M2/GDP | +3.00 | +1.80 | −1.20 |
+| Divisia M4/GDP | +0.43 | −0.71 | −1.14 |
+| M2/PCE | +0.82 | +1.01 | +0.19 |
+| Divisia M2/PCE | +2.31 | +1.94 | −0.37 |
+| Divisia M4/PCE | −0.42 | −0.64 | −0.22 |
+
+The earlier draft reported that two of six specifications had bands excluding zero. On
+published data none do. The 2026Q1 estimates moved too — Divisia M2/GDP from +1.68 to +1.33 —
+because the CFS revised its own history in the intervening vintage.
+
+I report this rather than quietly restating the table because the episode is the paper's
+thesis operating in real time. A single quarter of data, one price index arriving at twice
+the assumed rate, and a routine vendor revision were together enough to move the gap by up to
+1.2 percentage points and to reverse the only qualitative claim the estimates supported. The
+revision is well inside the 90% band of Section 3 — the framework anticipated a move of this
+size — which is precisely the difficulty. A gauge whose honest uncertainty band admits
+revisions large enough to flip its sign is not one on which to rest a policy conclusion, and
+that holds for my reading of the current stance exactly as it holds for IMR's.
 
 ## 9. Implications
 
@@ -525,9 +568,12 @@ I list these because several are material.
    1990–2019 would have learned that money does not matter and missed 2021.
 6. **Nothing here bands the model itself.** All intervals condition on the P-star
    specification being correct.
-7. **The 2026Q2 figures are a nowcast**, resting on GDPNow for real GDP, an assumption for the
-   GDP deflator, and one extrapolated month of Divisia. The gap is invariant to the real GDP
-   level by construction, which helps; the deflator assumption does bind.
+7. **The current reading turns over quickly.** In the 30 July draft 2026Q2 was a nowcast, and
+   the deflator assumption in it proved wrong by nearly a factor of two, which reversed the
+   qualitative conclusion (Section 8.1). The figures reported here are published data, but
+   they remain subject to the revision distribution of Section 3, and the 2026Q1 estimates
+   have already moved once on a CFS vintage change. No reading of the current stance in this
+   framework should be treated as settled.
 
 ## 11. Conclusion
 
@@ -543,7 +589,8 @@ does better still on reliability at some cost in predictive power.
 On the current stance, the honest answer is that money is modestly above its sustainable pace
 — on the order of one to two percentage points of excess growth, agreed across aggregates —
 and that this is small relative to an oil shock now underway that is roughly an order of
-magnitude larger. The information in monetary aggregates is real. The apparatus conventionally
+magnitude larger. The filtered gaps say less than that: on published 2026Q2 data not one of
+the twelve estimates, across two filters, has a band excluding zero. The information in monetary aggregates is real. The apparatus conventionally
 used to extract it is throwing much of it away.
 
 ---

@@ -37,7 +37,14 @@ JUNE_DIVISIA_MM = 0.00432   # June Divisia unpublished; carry M2's June m/m rate
 
 
 def build(cfs_path):
-    """Historical panel plus the 2026Q2 nowcast row."""
+    """Published data through the last complete quarter."""
+    df = fetch_fred().join(load_cfs(cfs_path), how="left")
+    df = df.dropna(subset=["rgdp", "p_gdp", "M2"]).loc["1967-01-01":]
+    return pd.DataFrame({m: price_gap(df, m, "rgdp", "p_gdp")["gap"]
+                         for m, _ in SERIES})
+
+
+def _unused_nowcast(cfs_path):
     df = fetch_fred().join(load_cfs(cfs_path), how="left")
     df = df.dropna(subset=["rgdp", "p_gdp", "M2"]).loc["1967-01-01":"2026-03-31"]
 
@@ -111,7 +118,7 @@ def main():
     args = ap.parse_args()
 
     gaps = build(args.cfs)
-    hist = gaps.loc[:"2026-01-01"]
+    hist = gaps
 
     fig, (ax1, ax2) = plt.subplots(
         2, 1, figsize=(11.5, 9.6), dpi=150,
@@ -127,7 +134,7 @@ def main():
         if b >= hist.index[0]:
             ax1.axvspan(a, b, color=BAND, zorder=0)
 
-    titled(ax1, "P-star price gaps, 1967Q1–2026Q1",
+    titled(ax1, "P-star price gaps, 1967Q1–2026Q2",
            "How far the money-implied equilibrium price level sits above (+) or below (−) the actual\n"
            "price level, GDP basis. Above zero, money is pushing inflation up. Shaded = NBER recessions.")
     ax1.set_ylabel("percentage points", color=MUTED, fontsize=9.5)
@@ -152,20 +159,14 @@ def main():
     # ---------------- bottom: recent zoom ----------------
     style(ax2)
     z = gaps.loc["2023-01-01":]
-    solid = z.loc[:"2026-01-01"]
+    solid = z
     for m, c in SERIES:
         ax2.plot(solid.index, solid[m], color=c, lw=2.0, marker="o", ms=4.5,
                  mec=SURFACE, mew=1.2, zorder=3)
-        # nowcast quarter: dotted link, hollow marker
-        ax2.plot(z.index[-2:], z[m].iloc[-2:], color=c, lw=2.0, ls=":", zorder=3)
-        ax2.plot([z.index[-1]], [z[m].iloc[-1]], marker="o", ms=7.5, mfc=SURFACE,
-                 mec=c, mew=2.0, zorder=4)
         ax2.plot([pd.Timestamp("2026-01-01")], [PAPER_2026Q1[m]], marker="x", ms=7,
                  color=MUTED, mew=1.8, zorder=5)
 
     # direct labels at the right edge (text in ink; the colored dot carries identity)
-    ax2.axvspan(pd.Timestamp("2026-02-15"), pd.Timestamp("2026-05-15"),
-                color=BAND, zorder=0)
     ax2.set_ylim(-13, 4)
     ax2.set_xlim(pd.Timestamp("2022-11-15"), pd.Timestamp("2027-01-15"))
 
@@ -176,8 +177,8 @@ def main():
                      color=INK2, fontsize=9.5, va="center")
 
     titled(ax2, "Zoom: the gaps have just crossed zero",
-           "Grey ×  = the values published in the paper for 2026Q1.   Shaded band + hollow marker = my 2026Q2\n"
-           "estimate: Q2 GDP is not released until July 30 and June Divisia is not yet published.")
+           "Grey ×  = the values published in the paper for 2026Q1. All points are published data;\n"
+           "the 2026Q2 national accounts were released on 30 July 2026.")
     ax2.set_ylabel("percentage points", color=MUTED, fontsize=9.5)
 
     fig.text(0.075, 0.018,
@@ -188,7 +189,7 @@ def main():
 
     fig.savefig(args.out, facecolor=SURFACE)
     print(f"wrote {args.out}")
-    print(gaps.tail(8).round(2).to_string())
+    print(gaps.tail(6).round(2).to_string())
 
 
 if __name__ == "__main__":
