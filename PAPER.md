@@ -39,7 +39,7 @@ none is cointegrated (Engle–Granger ADF −1.68 to −2.17 against a 5% critic
 Third, and most constructively, the problem is the filter rather than the price gap. The
 Hamilton (2018) regression filter dominates every HP variant on real-time reliability *and*
 predictive power simultaneously — noise-to-signal 0.24, sign errors 11%, standardised effect
-0.356 against 0.267, out-of-sample RMSE gain over an AR(4) of 5.8% against 3.5%. Decisively,
+0.344 against 0.262, out-of-sample RMSE gain over an AR(4) of 5.4% against 3.3%. Decisively,
 at 2021Q4 with inflation about to peak, the HP gap read +2.2 in real time against a
 hindsight value of +9.2, having decayed to neutral; the Hamilton gap read +18.7 against
 +21.8 and held the warning throughout. The paper's own central historical claim — that money
@@ -47,8 +47,8 @@ gave a usable advance warning of the post-2020 inflation — survives only under
 does not use.
 
 Fourth, I test the supply-shock attribution the paper asserts but never estimates. The price
-gap survives the addition of measured supply variables (γ rises slightly, to 0.093, HAC
-t = 2.76), so it is not a repackaged supply shock. But over 2025Q1–2026Q1 oil contributes
+gap survives the addition of measured supply variables (γ rises slightly, to 0.091, HAC
+t = 2.72), so it is not a repackaged supply shock. But over 2025Q1–2026Q1 oil contributes
 +0.00pp because oil *fell* through 2025, while tariffs contribute +1.17pp of the +2.03pp rise
 in PCE inflation. The deglobalization half of the paper's explanation holds; the energy half
 does not, for the window it is invoked to explain. Meanwhile 2026Q2 records the third-largest
@@ -129,7 +129,10 @@ equation is Hallman–Porter–Small's:
 > Δπ*t* = α + Σ*i*=1..4 β*i* Δπ*t−i* + γ (*p\*t−1* − *pt−1*) + ε*t*
 
 Data are FRED (`GDP`, `GDPC1`, `PCECC96`, `PCECTPI`, `M2SL`) and the Center for Financial
-Stability Divisia M2 and M4 aggregates, exactly as in IMR. Sample 1967Q1–2026Q1, n = 217.
+Stability Divisia M2 and M4 aggregates, exactly as in IMR. Sample 1967Q1–2026Q1, n = 217, on
+the CFS vintage of 4 August 2026. The sample is held at IMR's endpoint throughout this
+section even though data now run to 2026Q2, so the comparison is like for like; Section 8
+uses everything available.
 
 ### 2.2 Results
 
@@ -140,11 +143,11 @@ Table 1 reproduces closely.
 | Transactions | Money | γ (this paper) | γ (IMR) | t | IMR t | R² | IMR R² |
 |---|---|---|---|---|---|---|---|
 | GDP | M2 | 0.100 | 0.10 | 3.97 | 3.95 | 0.180 | 0.18 |
-| GDP | Divisia M2 | 0.079 | 0.08 | 3.70 | 3.94 | 0.173 | 0.18 |
-| GDP | Divisia M4 | 0.084 | 0.09 | 3.78 | 3.91 | 0.175 | 0.18 |
+| GDP | Divisia M2 | 0.077 | 0.08 | 3.63 | 3.94 | 0.171 | 0.18 |
+| GDP | Divisia M4 | 0.083 | 0.09 | 3.72 | 3.91 | 0.174 | 0.18 |
 | PCE | M2 | 0.125 | 0.12 | 3.81 | 3.88 | 0.193 | 0.19 |
-| PCE | Divisia M2 | 0.101 | 0.11 | 3.66 | 3.91 | 0.188 | 0.19 |
-| PCE | Divisia M4 | 0.101 | 0.10 | 3.46 | 3.63 | 0.183 | 0.19 |
+| PCE | Divisia M2 | 0.100 | 0.11 | 3.62 | 3.91 | 0.187 | 0.19 |
+| PCE | Divisia M4 | 0.100 | 0.10 | 3.43 | 3.63 | 0.183 | 0.19 |
 
 The lag structure also matches (GDP specification: −0.38, −0.13, 0.01, 0.10 against IMR's
 −0.38, −0.15, 0.00, 0.08). Two diagnostics IMR state in prose reproduce independently: my
@@ -152,12 +155,20 @@ one-sided HP estimate of potential growth over the four quarters to 2026Q1 is 2.
 their 2.45%, and CBO's is 2.27% against their 2.24%. My HP output gap is negative (−0.47) and
 the CBO gap positive (+0.98), matching their Figure 4 discussion.
 
-Gap *levels* for 2026Q1 run about 0.2pp above the published values (Divisia M4/GDP +1.02 here
-against +0.79). This is vintage, not method: 2026Q1 real GDP was revised up 0.115% after
-their publication, and the CFS revises its history monthly. I ruled out filter start date,
-implicit versus chain-type deflator, and recursive-HP versus Stock–Watson Kalman
-implementation (the latter two agree to 1.3 × 10⁻⁸, as they must, since the smoother at the
-endpoint equals the filter).
+Gap *levels* for 2026Q1 run 0.1 to 0.4pp above the published values (Divisia M4/GDP +1.15
+here against +0.79; M2/GDP −0.13 against −0.25), giving a range of −0.22 to +1.15 against
+IMR's −0.36 to +0.79. This is vintage, not method: 2026Q1 real GDP was revised up 0.115%
+after their publication, and the CFS revises its Divisia history monthly — the estimates here
+use the CFS vintage of 4 August 2026, and the discrepancy is largest for the Divisia
+specifications, which is where that revision lands. I ruled out filter start date, implicit
+versus chain-type deflator, and recursive-HP versus Stock–Watson Kalman implementation (the
+latter two agree to 1.3 × 10⁻⁸, as they must, since the smoother at the endpoint equals the
+filter).
+
+That a replication of a paper three weeks old already differs at the first decimal place on
+the *level* of the gap, while the regression coefficients hold to 0.01, is itself the first
+piece of evidence for what follows: this framework pins down its coefficients far more
+precisely than its levels.
 
 I regard the replication as successful and the discrepancies as immaterial.
 
@@ -225,9 +236,9 @@ Dropping *Y\** buys almost nothing: equilibrium velocity is doing the damage. Dr
 an eighteen-fold improvement in noise-to-signal and eliminates sign errors entirely.
 
 Nor is anything given up. Predicting the change in GDP inflation with Divisia M2, raw money
-growth matches the price gap almost exactly in sample (standardised effect 0.268 against
-0.267; R² 0.169 against 0.170; HAC t 2.74 against 2.51) and slightly beats it out of sample
-from 1990 (RMSE gain over an AR(4) of 3.82% against 3.48%).
+growth matches the price gap almost exactly in sample (standardised effect 0.262 against
+0.262; R² 0.167 against 0.169; HAC t 2.65 against 2.47) and slightly beats it out of sample
+from 1990 (RMSE gain over an AR(4) of 3.57% against 3.33%).
 
 I also attempted to estimate *V\** structurally rather than filter it, since IMR explicitly
 call for this ("one of our purposes in writing this article is to call for a renewal of this
@@ -236,9 +247,9 @@ duals. Eight specifications were tried, crossing two opportunity-cost measures (
 real user-cost aggregate; the 3-month Treasury bill less the CFS own-rate aggregate), current
 versus HP-trended opportunity cost, and full-sample versus recursive Stock–Watson dynamic OLS
 estimation of the cointegrating vector. **The attempt fails.** No variant is cointegrated
-(Engle–Granger ADF −1.68 to −2.17 against a 5% critical value of −3.34); no variant repairs
+(Engle–Granger ADF −1.76 to −2.27 against a 5% critical value of −3.34); no variant repairs
 the 1990–2019 window; the best-behaved variant simply reproduces the HP baseline (full-sample
-γ 0.081 against 0.079); and the user-cost variants are actively worse, flipping γ negative
+γ 0.079 against 0.077); and the user-cost variants are actively worse, flipping γ negative
 over 2020–2026 because the user cost spikes during hiking cycles, dragging *V\** with it so
 that tightening registers as expansionary. I report this because it narrows the problem: the
 difficulty is in the data, not in the choice of estimator for *V\**.
@@ -254,16 +265,16 @@ vintages, M2/GDP) and on predicting the change in inflation (Divisia M2), in sam
 
 | variant | noise/signal | sign err | std. effect | HAC t | R² | OOS gain | DM t |
 |---|---|---|---|---|---|---|---|
-| HP λ=100 | 1.32 | 36% | 0.192 | 1.70 | 0.146 | 0.3% | −0.10 |
-| HP λ=400 | 1.16 | 38% | 0.243 | 2.30 | 0.162 | 2.9% | −1.08 |
-| **HP λ=1,600** (IMR) | 1.09 | 33% | 0.267 | 2.51 | 0.170 | 3.5% | −1.13 |
-| HP λ=6,400 | 1.02 | 27% | 0.272 | 2.54 | 0.171 | 3.2% | −1.09 |
-| HP λ=25,600 | 0.89 | 28% | 0.265 | 2.54 | 0.168 | 2.6% | −0.97 |
-| HP λ=100,000 | 0.78 | 30% | 0.246 | 2.47 | 0.161 | 1.6% | −0.70 |
-| HP λ=10⁶ | 0.74 | 38% | 0.187 | 2.06 | 0.145 | −0.4% | +0.25 |
-| Hamilton, full-sample coefs | 0.24 | 11% | 0.415 | 4.54 | 0.224 | 6.7% | −1.58 |
-| **Hamilton, recursive coefs** | **0.24** | **11%** | **0.356** | **2.81** | **0.249** | **5.8%** | **−1.73** |
-| money growth (no trend) | 0.06 | 0% | 0.268 | 2.74 | 0.169 | 3.8% | −1.29 |
+| HP λ=100 | 1.32 | 36% | 0.185 | 1.63 | 0.144 | 0.1% | −0.02 |
+| HP λ=400 | 1.16 | 38% | 0.237 | 2.25 | 0.160 | 2.7% | −1.03 |
+| **HP λ=1,600** (IMR) | 1.09 | 33% | 0.262 | 2.47 | 0.169 | 3.3% | −1.11 |
+| HP λ=6,400 | 1.02 | 27% | 0.267 | 2.51 | 0.169 | 3.1% | −1.08 |
+| HP λ=25,600 | 0.89 | 28% | 0.262 | 2.52 | 0.167 | 2.6% | −0.98 |
+| HP λ=100,000 | 0.78 | 30% | 0.246 | 2.46 | 0.161 | 1.7% | −0.74 |
+| HP λ=10⁶ | 0.74 | 38% | 0.192 | 2.07 | 0.146 | −0.1% | +0.07 |
+| Hamilton, full-sample coefs | 0.24 | 11% | 0.414 | 4.54 | 0.224 | 6.6% | −1.56 |
+| **Hamilton, recursive coefs** | **0.24** | **11%** | **0.344** | **2.74** | **0.243** | **5.4%** | **−1.69** |
+| money growth (no trend) | 0.06 | 0% | 0.262 | 2.65 | 0.167 | 3.6% | −1.22 |
 
 Within the HP family there is a genuine tradeoff — noise-to-signal falls monotonically in λ
 while predictive power peaks near λ = 6,400 — so IMR's choice is dominated even inside its own
@@ -274,9 +285,9 @@ earlier, so it has no endpoint to revise, and the only revision comes from re-es
 coefficients and from data.
 
 The recursive row is the honest one. Applying full-sample Hamilton coefficients to historical
-dates is a look-ahead and inflates the standardised effect from 0.356 to 0.415 and the HAC
-t from 2.81 to 4.54. After correction Hamilton still dominates λ = 1600 on every column, and
-its Diebold–Mariano statistic of −1.73 is the closest any indicator examined here comes to
+dates is a look-ahead and inflates the standardised effect from 0.344 to 0.414 and the HAC
+t from 2.74 to 4.54. After correction Hamilton still dominates λ = 1600 on every column, and
+its Diebold–Mariano statistic of −1.69 is the closest any indicator examined here comes to
 beating an AR(4) — short of two-sided significance, borderline one-sided.
 
 ![Figure 2](frontier.png)
@@ -334,11 +345,11 @@ of goods and services), the paper's "deglobalization shock" made operational. Im
 | Spec | γ base | γ + supply | HAC t | R² base | R² + supply | F(supply) |
 |---|---|---|---|---|---|---|
 | M2/GDP | 0.100 | 0.110 | 2.78 | 0.180 | 0.263 | 2.83 |
-| Divisia M2/GDP | 0.079 | 0.093 | 2.76 | 0.173 | 0.263 | 3.09 |
-| Divisia M4/GDP | 0.084 | 0.101 | 2.85 | 0.175 | 0.266 | 3.16 |
+| Divisia M2/GDP | 0.077 | 0.091 | 2.72 | 0.171 | 0.260 | 3.05 |
+| Divisia M4/GDP | 0.083 | 0.099 | 2.81 | 0.174 | 0.264 | 3.13 |
 | M2/PCE | 0.125 | 0.121 | 3.69 | 0.193 | 0.327 | 5.08 |
-| Divisia M2/PCE | 0.101 | 0.106 | 3.49 | 0.188 | 0.330 | 5.34 |
-| Divisia M4/PCE | 0.101 | 0.102 | 3.60 | 0.183 | 0.322 | 5.19 |
+| Divisia M2/PCE | 0.100 | 0.104 | 3.45 | 0.187 | 0.328 | 5.32 |
+| Divisia M4/PCE | 0.100 | 0.101 | 3.54 | 0.183 | 0.321 | 5.17 |
 
 γ is stable or slightly higher throughout, and the supply block is jointly significant.
 Robust to dropping contemporaneous supply terms (γ 0.090–0.115) and to adding import prices
@@ -402,7 +413,7 @@ on 1990–2019 it is approximately zero in all six specifications, and Newey–W
 for the three GDP-based specifications **exclude 0.10**. Over 2020–2026 all six exclude zero.
 
 No formal test of *constancy* rejects, however: Quandt–Andrews sup-Wald with a wild bootstrap
-gives p = 0.30–0.81; Chow tests at pre-specified 1984Q1 and 2020Q1 dates give p = 0.64–0.98
+gives p = 0.30–0.82; Chow tests at pre-specified 1984Q1 and 2020Q1 dates give p = 0.64–0.98
 and p = 0.11–0.76; threshold regressions on three state variables give p = 0.05–0.91. The
 sup-Wald search window is only 1980Q1–2018Q1, since 15% trimming places a 2020 break out of
 reach — hence the pre-specified Chow tests. Break tests fail here because they must detect a
@@ -414,9 +425,9 @@ variance differs by a factor of four across windows:
 
 | Divisia M2/GDP | sd(gap) | signal share | γ observed | implied γ_true |
 |---|---|---|---|---|
-| 1967–1983 | 3.60 | 0.57 | 0.113 | **0.199** |
-| 1990–2019 | 1.79 | 0.25 | 0.002 | 0.006 |
-| 2020–2026 | 6.95 | 0.83 | 0.171 | **0.206** |
+| 1967–1983 | 3.62 | 0.57 | 0.112 | **0.195** |
+| 1990–2019 | 1.76 | 0.24 | −0.003 | −0.013 |
+| 2020–2026 | 6.92 | 0.83 | 0.169 | **0.203** |
 
 The 1970s and 2020s imply nearly identical structural coefficients from very different
 observed ones, suggesting IMR's 0.10 understates the structural parameter by roughly half.
@@ -424,7 +435,7 @@ observed ones, suggesting IMR's 0.10 understates the structural parameter by rou
 **But attenuation is not the whole story.** If it were, an indicator measured almost without
 error should show no regime dependence. Money growth is such an indicator (signal shares
 0.985–0.999) and shows the same pattern, with the 2020–2026 versus 1990–2019 difference
-significant at t = 3.14, against 2.66 for the price gap. Cleaning up measurement error makes
+significant at t = 3.15, against 2.64 for the price gap. Cleaning up measurement error makes
 the regime dependence sharper, not weaker. Both things hold: measurement error inflates how
 unstable the *price gap* coefficient appears, and genuine regime dependence lies underneath
 that attenuation cannot explain away.
@@ -560,7 +571,7 @@ I list these because several are material.
 3. **Tariff coefficients are extrapolated** far outside the historical range that identifies
    them.
 4. **No monetary indicator here beats an AR(4) at conventional significance.** The best is
-   Hamilton at DM t = −1.73. This is consistent with a long literature (Atkeson and Ohanian
+   Hamilton at DM t = −1.69. This is consistent with a long literature (Atkeson and Ohanian
    2001; Faust and Wright 2013) in which simple benchmarks and survey forecasts are hard to
    beat, and it should temper any claim about practical forecasting value.
 5. **The regime dependence is unexplained.** None of the three state variables tested yields a

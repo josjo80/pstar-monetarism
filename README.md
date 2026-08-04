@@ -72,8 +72,8 @@ This repo reproduces that result and then pushes on it. Six findings:
 
 5. **The paper's supply-shock explanation is half right, and the half that is right
    isn't the half it emphasises.** Putting measured supply variables into the regression
-   for the first time: the price gap **survives** (γ rises slightly, 0.079 → 0.093, HAC
-   t = 2.8), so the money signal was not proxying for supply. But over 2025Q1–2026Q1,
+   for the first time: the price gap **survives** (γ rises slightly, 0.077 → 0.091, HAC
+   t = 2.7), so the money signal was not proxying for supply. But over 2025Q1–2026Q1,
    **oil contributes ~0.00pp** — oil *fell* through 2025 — while **tariffs contribute
    +1.17pp of the +2.03pp rise in PCE inflation** (and nothing in the GDP deflator, which
    excludes imports). A residual of +4.0 to +4.7pp is explained by neither money nor
@@ -87,7 +87,7 @@ This repo reproduces that result and then pushes on it. Six findings:
    framing) buys almost nothing — equilibrium velocity was doing the damage — but dropping
    both is transformative: noise-to-signal falls from **1.09 to 0.06** and real-time sign
    errors from **33% to zero**. And nothing is given up for it: raw money growth matches
-   the price gap in sample (standardised effect 0.268 vs 0.267, R² 0.169 vs 0.170) and
+   the price gap in sample (standardised effect 0.262 vs 0.262, R² 0.167 vs 0.169) and
    slightly beats it out of sample. On this evidence the filtering machinery adds
    measurement noise without adding information.
 
@@ -97,7 +97,7 @@ This repo reproduces that result and then pushes on it. Six findings:
    of it — but no HP variant gets close. The **Hamilton (2018) regression filter dominates
    every HP variant on both axes at once**: noise-to-signal 0.24 against 1.09, real-time
    sign errors 11% against 33%, and *more* predictive power, not less (standardised effect
-   0.356 against 0.267, R² 0.249 against 0.170, out-of-sample gain 5.8% against 3.5%).
+   0.344 against 0.262, R² 0.243 against 0.169, out-of-sample gain 5.4% against 3.3%).
    That is not a tradeoff, it is a strict improvement, and it is what Hamilton argued:
    his filter is one-sided by construction, so it has no endpoint to revise.
 
@@ -108,7 +108,7 @@ nominal growth, which is near-noise-free and available the day M2 prints. On tha
 money is currently running 7.7–8.7% annualized against a 4.25–5.0% speed limit — a solid
 observation, unlike the ±5pp band on the gap. Two caveats stand: the money–inflation
 relationship is genuinely regime-dependent (~0 on 1990–2019, strong on 2020–2026,
-significant at t = 3.14 even for a near-noise-free indicator), and no monetary indicator
+significant at t = 3.15 even for a near-noise-free indicator), and no monetary indicator
 beats a plain AR(4) significantly out of sample.
 
 See **Findings on model structure** below for the detail.
@@ -147,17 +147,17 @@ Table 1 reproduces closely on the paper's 1967Q1–2026Q1 sample (n = 217):
 | Transactions | Money | γ (this repo) | γ (paper) | t | paper t | R² | paper R² |
 |---|---|---|---|---|---|---|---|
 | GDP | M2 | 0.100 | 0.10 | 3.97 | 3.95 | 0.180 | 0.18 |
-| GDP | Divisia M2 | 0.079 | 0.08 | 3.70 | 3.94 | 0.173 | 0.18 |
-| GDP | Divisia M4 | 0.084 | 0.09 | 3.78 | 3.91 | 0.175 | 0.18 |
+| GDP | Divisia M2 | 0.077 | 0.08 | 3.63 | 3.94 | 0.171 | 0.18 |
+| GDP | Divisia M4 | 0.083 | 0.09 | 3.72 | 3.91 | 0.174 | 0.18 |
 | PCE | M2 | 0.125 | 0.12 | 3.81 | 3.88 | 0.193 | 0.19 |
-| PCE | Divisia M2 | 0.101 | 0.11 | 3.66 | 3.91 | 0.188 | 0.19 |
-| PCE | Divisia M4 | 0.101 | 0.10 | 3.46 | 3.63 | 0.183 | 0.19 |
+| PCE | Divisia M2 | 0.100 | 0.11 | 3.62 | 3.91 | 0.187 | 0.19 |
+| PCE | Divisia M4 | 0.100 | 0.10 | 3.43 | 3.63 | 0.183 | 0.19 |
 
 Two of the paper's prose diagnostics also reproduce: one-sided HP potential growth over
 the four quarters to 2026Q1 is 2.48% (paper: 2.45%) and CBO's is 2.27% (paper: 2.24%).
 
 The 2026Q1 **gap levels** run about +0.2pp above the published values (e.g. Divisia
-M4/GDP +1.02 here vs +0.79 in the paper). This is data vintage, not method — 2026Q1
+M4/GDP +1.15 here vs +0.79 in the paper). This is data vintage, not method — 2026Q1
 real GDP was revised +0.115% after publication, and the CFS workbook revises monthly.
 Filter start date, implicit vs chain-type deflator, and recursive vs Kalman one-sided
 HP were all ruled out (see `diagnostics/spec_sensitivity.py`).
@@ -254,11 +254,11 @@ Asking a narrower question is more informative — is the paper's 0.10 consisten
 | Spec | 1990–2019 | contains 0? | contains 0.10? | 2020–2026 | contains 0? |
 |---|---|---|---|---|---|
 | M2/GDP | [−0.093, +0.076] | yes | **no** | [+0.089, +0.296] | **no** |
-| Divisia M2/GDP | [−0.078, +0.081] | yes | **no** | [+0.075, +0.268] | **no** |
-| Divisia M4/GDP | [−0.144, +0.034] | yes | **no** | [+0.089, +0.227] | **no** |
+| Divisia M2/GDP | [−0.088, +0.082] | yes | **no** | [+0.074, +0.264] | **no** |
+| Divisia M4/GDP | [−0.148, +0.035] | yes | **no** | [+0.088, +0.224] | **no** |
 | M2/PCE | [−0.048, +0.188] | yes | yes | [+0.103, +0.231] | **no** |
-| Divisia M2/PCE | [−0.044, +0.190] | yes | yes | [+0.090, +0.211] | **no** |
-| Divisia M4/PCE | [−0.119, +0.106] | yes | yes | [+0.092, +0.185] | **no** |
+| Divisia M2/PCE | [−0.046, +0.192] | yes | yes | [+0.089, +0.209] | **no** |
+| Divisia M4/PCE | [−0.121, +0.109] | yes | yes | [+0.091, +0.184] | **no** |
 
 So: for the GDP-based specifications the 1990–2019 data reject γ = 0.10 outright. The
 PCE-based ones are simply uninformative over that window — wide enough to contain both 0
@@ -272,9 +272,9 @@ together. The gap's own variance differs by a factor of ~4 across these windows,
 
 | Divisia M2/GDP | sd(gap) | signal share | γ observed | implied γ_true |
 |---|---|---|---|---|
-| 1967–1983 | 3.60 | 0.57 | 0.113 | **0.199** |
-| 1990–2019 | 1.79 | 0.25 | 0.002 | 0.006 |
-| 2020–2026 | 6.95 | 0.83 | 0.171 | **0.206** |
+| 1967–1983 | 3.62 | 0.57 | 0.112 | **0.195** |
+| 1990–2019 | 1.76 | 0.24 | −0.003 | −0.013 |
+| 2020–2026 | 6.92 | 0.83 | 0.169 | **0.203** |
 
 The 1970s and the 2020s imply almost the same structural coefficient from very different
 observed ones, and 1990–2019 is consistent too (a signal share of 0.25 predicts γ_obs ≈
@@ -285,8 +285,8 @@ understates the structural coefficient by roughly half.
 was.** The falsification test: if measurement error were the explanation, an indicator
 measured almost without error should show no regime dependence. Money growth is such an
 indicator — noise-to-signal 0.06, signal shares of 0.985–0.999 — and it shows the *same*
-pattern, with the 2020–2026 versus 1990–2019 difference significant at **t = 3.14**
-(against t = 2.66 for the price gap). Cleaning up the measurement error makes the regime
+pattern, with the 2020–2026 versus 1990–2019 difference significant at **t = 3.15**
+(against t = 2.64 for the price gap). Cleaning up the measurement error makes the regime
 dependence sharper, not weaker.
 
 Both things are true: measurement error inflates how unstable the *price gap* coefficient
@@ -304,14 +304,14 @@ variants were tried, crossing two opportunity-cost measures (the CFS Divisia use
 aggregate; the 3-month T-bill less the CFS own-rate aggregate), current vs HP-trended
 opportunity cost, and full-sample vs recursive DOLS estimation of the cointegrating vector.
 
-- **Nothing is cointegrated.** Engle-Granger ADF on the residual ranges −1.68 to −2.17
+- **Nothing is cointegrated.** Engle-Granger ADF on the residual ranges −1.76 to −2.27
   against a 5% critical value of −3.34. There is no stable long-run money-demand relation
   in these data to substitute for the filter.
-- **No variant repairs 1990–2019.** γ over that window across all eight: −0.035 to +0.029,
+- **No variant repairs 1990–2019.** γ over that window across all eight: −0.036 to +0.028,
   none significant.
 - **The best-behaved variant just reproduces the baseline.** T-bill-less-own-rate with
-  fixed β gives full-sample γ = 0.081 against the HP baseline's 0.079, and 2020–2026
-  0.179 against 0.171. Adding money-demand structure changes essentially nothing.
+  fixed β gives full-sample γ = 0.079 against the HP baseline's 0.077, and 2020–2026
+  0.173 against 0.169. Adding money-demand structure changes essentially nothing.
 - **The CFS user-cost variants are actively worse**, flipping γ negative over 2020–2026
   (−0.15 to −0.22). The user cost spikes during hiking cycles, dragging V* with it, so
   tightening registers as expansionary — backwards for a policy-stance indicator.
@@ -397,11 +397,11 @@ for, in all six specifications, and the supply block is jointly significant:
 | Spec | γ base | γ + supply | HAC t | R² base | R² + supply | F(supply) |
 |---|---|---|---|---|---|---|
 | M2/GDP | 0.100 | 0.110 | 2.78 | 0.180 | 0.263 | 2.83 |
-| Divisia M2/GDP | 0.079 | 0.093 | 2.76 | 0.173 | 0.263 | 3.09 |
-| Divisia M4/GDP | 0.084 | 0.101 | 2.85 | 0.175 | 0.266 | 3.16 |
+| Divisia M2/GDP | 0.077 | 0.091 | 2.72 | 0.171 | 0.260 | 3.05 |
+| Divisia M4/GDP | 0.083 | 0.099 | 2.81 | 0.174 | 0.264 | 3.13 |
 | M2/PCE | 0.125 | 0.121 | 3.69 | 0.193 | 0.327 | 5.08 |
-| Divisia M2/PCE | 0.101 | 0.106 | 3.49 | 0.188 | 0.330 | 5.34 |
-| Divisia M4/PCE | 0.101 | 0.102 | 3.60 | 0.183 | 0.322 | 5.19 |
+| Divisia M2/PCE | 0.100 | 0.104 | 3.45 | 0.187 | 0.328 | 5.32 |
+| Divisia M4/PCE | 0.100 | 0.101 | 3.54 | 0.183 | 0.321 | 5.17 |
 
 Robust to dropping the contemporaneous supply terms (γ = 0.090–0.115) and to adding
 import prices and PPI, which push R² to 0.60 while γ holds at 0.067 (t = 3.08). This is a
@@ -457,16 +457,16 @@ predicting the change in inflation (Divisia M2):
 
 | variant | noise/signal | sign err | std effect | HAC t | R² | OOS gain | DM t |
 |---|---|---|---|---|---|---|---|
-| HP λ=100 | 1.32 | 36% | 0.192 | 1.70 | 0.146 | 0.3% | −0.10 |
-| HP λ=400 | 1.16 | 38% | 0.243 | 2.30 | 0.162 | 2.9% | −1.08 |
-| **HP λ=1,600** (paper) | 1.09 | 33% | 0.267 | 2.51 | 0.170 | 3.5% | −1.13 |
-| HP λ=6,400 | 1.02 | 27% | 0.272 | 2.54 | 0.171 | 3.2% | −1.09 |
-| HP λ=25,600 | 0.89 | 28% | 0.265 | 2.54 | 0.168 | 2.6% | −0.97 |
-| HP λ=100,000 | 0.78 | 30% | 0.246 | 2.47 | 0.161 | 1.6% | −0.70 |
-| HP λ=1,000,000 | 0.74 | 38% | 0.187 | 2.06 | 0.145 | −0.4% | +0.25 |
-| Hamilton, full-sample coefs | 0.24 | 11% | 0.415 | 4.54 | 0.224 | 6.7% | −1.58 |
-| **Hamilton, recursive coefs** | **0.24** | **11%** | **0.356** | **2.81** | **0.249** | **5.8%** | **−1.73** |
-| money growth (no trend) | 0.06 | 0% | 0.268 | 2.74 | 0.169 | 3.8% | −1.29 |
+| HP λ=100 | 1.32 | 36% | 0.185 | 1.63 | 0.144 | 0.1% | −0.02 |
+| HP λ=400 | 1.16 | 38% | 0.237 | 2.25 | 0.160 | 2.7% | −1.03 |
+| **HP λ=1,600** (paper) | 1.09 | 33% | 0.262 | 2.47 | 0.169 | 3.3% | −1.11 |
+| HP λ=6,400 | 1.02 | 27% | 0.267 | 2.51 | 0.169 | 3.1% | −1.08 |
+| HP λ=25,600 | 0.89 | 28% | 0.262 | 2.52 | 0.167 | 2.6% | −0.98 |
+| HP λ=100,000 | 0.78 | 30% | 0.246 | 2.46 | 0.161 | 1.7% | −0.74 |
+| HP λ=1,000,000 | 0.74 | 38% | 0.192 | 2.07 | 0.146 | −0.1% | +0.07 |
+| Hamilton, full-sample coefs | 0.24 | 11% | 0.414 | 4.54 | 0.224 | 6.6% | −1.56 |
+| **Hamilton, recursive coefs** | **0.24** | **11%** | **0.344** | **2.74** | **0.243** | **5.4%** | **−1.69** |
+| money growth (no trend) | 0.06 | 0% | 0.262 | 2.65 | 0.167 | 3.6% | −1.22 |
 
 Within the HP family there is a genuine frontier — noise-to-signal falls monotonically in
 λ while predictive power peaks around λ = 6,400 — so the paper's λ = 1600 is dominated
@@ -476,9 +476,9 @@ quarters earlier, so unlike the HP filter it has no endpoint to revise; the only
 comes from re-estimated coefficients and data.
 
 The recursive row is the honest one — applying full-sample Hamilton coefficients to
-historical dates is a look-ahead, and it inflates the standardised effect from 0.356 to
-0.415. Even after that correction Hamilton dominates λ = 1600 on every column, and its
-Diebold-Mariano statistic of −1.73 is the closest any indicator in this repo comes to
+historical dates is a look-ahead, and it inflates the standardised effect from 0.344 to
+0.414. Even after that correction Hamilton dominates λ = 1600 on every column, and its
+Diebold-Mariano statistic of −1.69 is the closest any indicator in this repo comes to
 beating an AR(4) (still short of two-sided significance; borderline one-sided).
 
 So the P-star *idea* is defensible and it is the HP filter that was letting it down. The
@@ -508,9 +508,9 @@ transformative: an 18-fold improvement in noise-to-signal, and zero real-time si
 
 And the filtering machinery buys nothing in exchange. In sample, predicting the change in
 GDP inflation with Divisia M2, raw money growth matches the price gap almost exactly
-(standardised effect 0.268 vs 0.267; R² 0.169 vs 0.170; HAC t 2.74 vs 2.51). Out of sample
-from 1990 it is slightly *better* (RMSE improvement over an AR(4) of 3.82% vs 3.48%,
-Diebold-Mariano t −1.29 vs −1.13; neither significant).
+(standardised effect 0.262 vs 0.262; R² 0.167 vs 0.169; HAC t 2.65 vs 2.47). Out of sample
+from 1990 it is slightly *better* (RMSE improvement over an AR(4) of 3.57% vs 3.33%,
+Diebold-Mariano t −1.22 vs −1.11; neither significant).
 
 Two things this does not fix. All four indicators show the same regime pattern — ~0 on
 1990–2019, strong on 2020–2026 — so that is in the monetary information itself, not in the
