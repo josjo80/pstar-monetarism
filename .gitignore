@@ -5,8 +5,10 @@ __pycache__/
 venv/
 .venv/
 
-# Third-party data, re-downloaded on demand (CFS revises monthly)
+# The working CFS copy is regenerated; the date-stamped vintages are versioned,
+# because the CFS keeps no archive and an overwritten workbook is unrecoverable.
 data/Divisia.xlsx
+!data/Divisia_*.xlsx
 
 # ALFRED vintage cache, rebuilt with `python vintages.py --fetch`
 data/vintages/

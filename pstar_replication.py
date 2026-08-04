@@ -49,6 +49,7 @@ USAGE
 """
 
 import argparse
+import os
 import sys
 import warnings
 
@@ -186,15 +187,40 @@ def inspect_cfs(path):
 CFS_URL = "https://www.centerforfinancialstability.org/amfm/Divisia.xlsx"
 
 
-def download_cfs(path="Divisia.xlsx"):
-    """Fetch the CFS Advances in Monetary and Financial Measurement workbook."""
+def download_cfs(path=None, force=False):
+    """
+    Fetch the CFS Advances in Monetary and Financial Measurement workbook.
+
+    The CFS publishes only the current file and keeps no vintage archive, so a
+    workbook that has been overwritten is gone. Downloads therefore land in a
+    date-stamped file that is never silently clobbered, and `data/Divisia.xlsx`
+    is refreshed as a copy pointing at the newest vintage.
+
+    Learned the hard way: the workbook underlying the 30 July 2026 draft was
+    overwritten in place and could not be recovered.
+    """
+    import datetime as _dt
+    import shutil
+
     import requests
 
-    r = requests.get(CFS_URL, timeout=120)
-    r.raise_for_status()
-    with open(path, "wb") as fh:
-        fh.write(r.content)
-    return path
+    stamp = _dt.date.today().isoformat()
+    dated = path or os.path.join("data", f"Divisia_{stamp}.xlsx")
+    os.makedirs(os.path.dirname(dated) or ".", exist_ok=True)
+
+    if os.path.exists(dated) and not force:
+        print(f"  {dated} already exists; keeping it (pass force=True to refetch)")
+    else:
+        r = requests.get(CFS_URL, timeout=120)
+        r.raise_for_status()
+        with open(dated, "wb") as fh:
+            fh.write(r.content)
+        print(f"  wrote {dated}")
+
+    working = os.path.join(os.path.dirname(dated) or ".", "Divisia.xlsx")
+    if os.path.abspath(working) != os.path.abspath(dated):
+        shutil.copyfile(dated, working)
+    return working
 
 
 def load_cfs_workbook(path):

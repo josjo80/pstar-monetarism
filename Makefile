@@ -6,7 +6,7 @@ CFS = data/Divisia.xlsx
 all: replication extensions figures paper
 
 data:
-	python pstar_replication.py --download-cfs $(CFS) --out output/pstar.csv
+	python -c "import pstar_replication as p; p.download_cfs()"
 	python vintages.py --fetch
 
 replication:

@@ -587,13 +587,27 @@ Diagnostics (each takes the CFS path from `$CFS_XLSX`, default `data/Divisia.xls
 | `diagnostics/uncertainty.py` | Bands on the gap, on γ, and on the implied inflation effect. |
 | `diagnostics/attenuation.py` | Does measurement error explain the regime dependence of γ? |
 
-## Reproducibility note
+## Reproducibility and data vintages
 
-The cached `data/Divisia.xlsx` tracks the current CFS vintage, which the CFS revises monthly.
-The SSRN v1 paper (30 July 2026) was computed on the June 2026 vintage with 2026Q2 as a
-nowcast; v2 (4 August 2026) uses the August vintage with 2026Q2 published. A fresh clone
-reproduces the current version, not earlier ones — the ALFRED vintage cache in
-`data/vintages/` is the only part of the pipeline that is vintage-pinned by construction.
+The CFS revises its Divisia history monthly and **publishes only the current workbook — there
+is no vintage archive**, and the Wayback Machine has never captured the file. An overwritten
+workbook is therefore gone for good.
+
+Date-stamped vintages are versioned in `data/` for exactly this reason:
+
+| vintage | Divisia data through | used for |
+|---|---|---|
+| `data/Divisia_2026-08-04.xlsx` | June 2026 | current results, SSRN v2 (4 Aug 2026) |
+
+`data/Divisia.xlsx` is a working copy of the newest vintage and is gitignored;
+`download_cfs()` writes to a date-stamped file and will not silently overwrite one.
+
+**Known gap.** The workbook underlying SSRN v1 (30 July 2026, Divisia through May 2026) was
+overwritten in place before this policy existed and could not be recovered. The v1 *results*
+are preserved in git history — `git show 1a2f7e3:PAPER.md` — but v1 cannot be re-run from a
+clone. Everything from v2 onward can.
+
+The ALFRED cache in `data/vintages/` is vintage-pinned by construction and unaffected.
 
 ## Data
 
