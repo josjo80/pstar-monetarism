@@ -1,0 +1,96 @@
+====================================================================================================
+ROLLING 60-QUARTER GAMMA  (Divisia M2 / GDP)
+====================================================================================================
+            gamma      t
+date                    
+1986-01-01  0.063  1.340
+1991-01-01  0.031  0.919
+1996-01-01  0.070  2.523
+2001-01-01  0.052  1.783
+2006-01-01  0.014  0.361
+2011-01-01 -0.014 -0.287
+2016-01-01 -0.046 -0.761
+2021-01-01  0.148  2.761
+2026-01-01  0.160  3.868
+
+  range -0.057 to +0.236; 16% of windows have t > 2
+
+====================================================================================================
+QUANDT-ANDREWS SUP-WALD, break in gamma, 15% trimming, wild bootstrap p (999 reps)
+====================================================================================================
+search window: 1980-01-01 to 2018-01-01   (trimming puts a 2020 break OUT of reach -- see the next table)
+
+spec                sup-Wald   break date       p
+M2/GDP                  3.28   2013-07-01   0.528
+Divisia M2/GDP          3.67   2013-07-01   0.526
+Divisia M4/GDP          6.38   2016-04-01   0.302
+M2/PCE                  1.27   2005-10-01   0.752
+Divisia M2/PCE          1.76   2006-07-01   0.748
+Divisia M4/PCE          1.26   2015-04-01   0.815
+
+====================================================================================================
+BREAK IN GAMMA AT A PRE-SPECIFIED DATE (no search, so no search correction)
+====================================================================================================
+
+--- break at 1984-01-01  (start of the Great Moderation) ---
+spec                g(before)   g(after)     Wald       p
+M2/GDP                  0.124      0.094     0.22   0.767
+Divisia M2/GDP          0.091      0.073     0.12   0.790
+Divisia M4/GDP          0.111      0.076     0.37   0.635
+M2/PCE                  0.122      0.125     0.00   0.975
+Divisia M2/PCE          0.103      0.099     0.00   0.957
+Divisia M4/PCE          0.122      0.094     0.16   0.733
+
+--- break at 2020-01-01  (pandemic money surge) ---
+spec                g(before)   g(after)     Wald       p
+M2/GDP                  0.056      0.140     2.42   0.279
+Divisia M2/GDP          0.044      0.120     2.84   0.219
+Divisia M4/GDP          0.033      0.138     5.22   0.115
+M2/PCE                  0.114      0.135     0.09   0.755
+Divisia M2/PCE          0.085      0.119     0.35   0.580
+Divisia M4/PCE          0.076      0.128     0.75   0.420
+
+====================================================================================================
+IS IT INSTABILITY, OR JUST IMPRECISION?  95% CI on gamma, Newey-West (4 lags)
+====================================================================================================
+spec               window         gamma   HAC se             95% CI    0 in CI?  0.10 in CI?
+M2/GDP             full           0.100    0.036   [+0.029, +0.171]          NO          yes
+M2/GDP             1990-2019     -0.009    0.043   [-0.093, +0.076]         yes           NO
+M2/GDP             2020-2026      0.193    0.053   [+0.089, +0.296]          NO          yes
+Divisia M2/GDP     full           0.077    0.031   [+0.017, +0.138]          NO          yes
+Divisia M2/GDP     1990-2019     -0.003    0.043   [-0.088, +0.082]         yes           NO
+Divisia M2/GDP     2020-2026      0.169    0.048   [+0.074, +0.264]          NO          yes
+Divisia M4/GDP     full           0.083    0.032   [+0.021, +0.145]          NO          yes
+Divisia M4/GDP     1990-2019     -0.056    0.047   [-0.148, +0.035]         yes           NO
+Divisia M4/GDP     2020-2026      0.156    0.035   [+0.088, +0.224]          NO          yes
+M2/PCE             full           0.125    0.032   [+0.062, +0.187]          NO          yes
+M2/PCE             1990-2019      0.070    0.060   [-0.048, +0.188]         yes          yes
+M2/PCE             2020-2026      0.167    0.033   [+0.103, +0.231]          NO           NO
+Divisia M2/PCE     full           0.100    0.030   [+0.041, +0.159]          NO          yes
+Divisia M2/PCE     1990-2019      0.073    0.061   [-0.046, +0.192]         yes          yes
+Divisia M2/PCE     2020-2026      0.149    0.031   [+0.089, +0.209]          NO          yes
+Divisia M4/PCE     full           0.100    0.027   [+0.046, +0.153]          NO          yes
+Divisia M4/PCE     1990-2019     -0.006    0.059   [-0.121, +0.109]         yes          yes
+Divisia M4/PCE     2020-2026      0.138    0.024   [+0.091, +0.184]          NO          yes
+
+====================================================================================================
+THRESHOLD REGRESSION: does gamma switch on the state of money?
+====================================================================================================
+
+--- Divisia M2/GDP ---
+state variable                        threshold   g(low)  g(high)  sup-Wald       p
+|excess money growth|                      2.92    0.046    0.091      0.89   0.980
+money growth volatility (12q sd)           2.16   -0.000    0.098      3.53   0.403
+|price gap|                                3.40    0.020    0.089      1.50   0.913
+
+--- Divisia M2/PCE ---
+state variable                        threshold   g(low)  g(high)  sup-Wald       p
+|excess money growth|                      1.84    0.010    0.120      2.41   0.510
+money growth volatility (12q sd)           1.90    0.011    0.116      1.85   0.741
+|price gap|                                4.81    0.030    0.132      2.88   0.783
+
+--- M2/GDP ---
+state variable                        threshold   g(low)  g(high)  sup-Wald       p
+|excess money growth|                      1.04   -0.030    0.118      3.34   0.596
+money growth volatility (12q sd)           2.16   -0.016    0.128      5.02   0.225
+|price gap|                                3.43   -0.016    0.148      8.98   0.063

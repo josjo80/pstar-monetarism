@@ -241,8 +241,8 @@ estimates differ dramatically, but no formal test of *constancy* rejects:
 |---|---|
 | Quandt-Andrews sup-Wald, unknown break, wild bootstrap | p = 0.30–0.81, all six specs |
 | Chow at a pre-specified 1984Q1 | p = 0.64–0.98 |
-| Chow at a pre-specified 2020Q1 | p = 0.11–0.76 |
-| Threshold on excess money growth / money-growth volatility / \|gap\| | p = 0.05–0.91 across 9 combinations |
+| Chow at a pre-specified 2020Q1 | p = 0.12–0.76 |
+| Threshold on excess money growth / money-growth volatility / \|gap\| | p = 0.06–0.98 across 9 combinations |
 
 Note the sup-Wald search window is only 1980Q1–2018Q1: 15% trimming puts a 2020 break out
 of reach entirely, which is why the pre-specified Chow tests are there.

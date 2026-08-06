@@ -414,7 +414,7 @@ for the three GDP-based specifications **exclude 0.10**. Over 2020–2026 all si
 
 No formal test of *constancy* rejects, however: Quandt–Andrews sup-Wald with a wild bootstrap
 gives p = 0.30–0.82; Chow tests at pre-specified 1984Q1 and 2020Q1 dates give p = 0.64–0.98
-and p = 0.11–0.76; threshold regressions on three state variables give p = 0.05–0.91. The
+and p = 0.12–0.76; threshold regressions on three state variables give p = 0.06–0.98. The
 sup-Wald search window is only 1980Q1–2018Q1, since 15% trimming places a 2020 break out of
 reach — hence the pre-specified Chow tests. Break tests fail here because they must detect a
 change against noise in both windows.

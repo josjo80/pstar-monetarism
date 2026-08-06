@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <title>Data Series | Bank of England | Database</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/print.css" media="print">
+    <script>
+// akam-sw.js install script version 1.3.6
+"serviceWorker"in navigator&&"find"in[]&&function(){var e=new Promise(function(e){"complete"===document.readyState||!1?e():(window.addEventListener("load",function(){e()}),setTimeout(function(){"complete"!==document.readyState&&e()},1e4))}),n=window.akamServiceWorkerInvoked,r="1.3.6";if(n)aka3pmLog("akam-setup already invoked");else{window.akamServiceWorkerInvoked=!0,window.aka3pmLog=function(){window.akamServiceWorkerDebug&&console.log.apply(console,arguments)};function o(e){(window.BOOMR_mq=window.BOOMR_mq||[]).push(["addVar",{"sm.sw.s":e,"sm.sw.v":r}])}var i="/akam-sw.js",a=new Map;navigator.serviceWorker.addEventListener("message",function(e){var n,r,o=e.data;if(o.isAka3pm)if(o.command){var i=(n=o.command,(r=a.get(n))&&r.length>0?r.shift():null);i&&i(e.data.response)}else if(o.commandToClient)switch(o.commandToClient){case"enableDebug":window.akamServiceWorkerDebug||(window.akamServiceWorkerDebug=!0,aka3pmLog("Setup script debug enabled via service worker message"),v());break;case"boomerangMQ":o.payload&&(window.BOOMR_mq=window.BOOMR_mq||[]).push(o.payload)}aka3pmLog("akam-sw message: "+JSON.stringify(e.data))});var t=function(e){return new Promise(function(n){var r,o;r=e.command,o=n,a.has(r)||a.set(r,[]),a.get(r).push(o),navigator.serviceWorker.controller&&(e.isAka3pm=!0,navigator.serviceWorker.controller.postMessage(e))})},c=function(e){return t({command:"navTiming",navTiming:e})},s=null,m={},d=function(){var e=i;return s&&(e+="?othersw="+encodeURIComponent(s)),function(e,n){return new Promise(function(r,i){aka3pmLog("Registering service worker with URL: "+e),navigator.serviceWorker.register(e,n).then(function(e){aka3pmLog("ServiceWorker registration successful with scope: ",e.scope),r(e),o(1)}).catch(function(e){aka3pmLog("ServiceWorker registration failed: ",e),o(0),i(e)})})}(e,m)},g=navigator.serviceWorker.__proto__.register;if(navigator.serviceWorker.__proto__.register=function(n,r){return n.includes(i)?g.call(this,n,r):(aka3pmLog("Overriding registration of service worker for: "+n),s=new URL(n,window.location.href),m=r,navigator.serviceWorker.controller?new Promise(function(n,r){var o=navigator.serviceWorker.controller.scriptURL;if(o.includes(i)){var a=encodeURIComponent(s);o.includes(a)?(aka3pmLog("Cancelling registration as we already integrate other SW: "+s),navigator.serviceWorker.getRegistration().then(function(e){n(e)})):e.then(function(){aka3pmLog("Unregistering existing 3pm service worker"),navigator.serviceWorker.getRegistration().then(function(e){e.unregister().then(function(){return d()}).then(function(e){n(e)}).catch(function(e){r(e)})})})}else aka3pmLog("Cancelling registration as we already have akam-sw.js installed"),navigator.serviceWorker.getRegistration().then(function(e){n(e)})}):g.call(this,n,r))},navigator.serviceWorker.controller){var u=navigator.serviceWorker.controller.scriptURL;u.includes("/akam-sw.js")||u.includes("/akam-sw-preprod.js")||u.includes("/threepm-sw.js")||(aka3pmLog("Detected existing service worker. Removing and re-adding inside akam-sw.js"),s=new URL(u,window.location.href),e.then(function(){navigator.serviceWorker.getRegistration().then(function(e){m={scope:e.scope},e.unregister(),d()})}))}else e.then(function(){window.akamServiceWorkerPreprod&&(i="/akam-sw-preprod.js"),d()});if(window.performance){var w=window.performance.timing,l=w.responseEnd-w.responseStart;c(l)}e.then(function(){t({command:"pageLoad"})});var k=!1;function v(){window.akamServiceWorkerDebug&&!k&&(k=!0,aka3pmLog("Initializing debug functions at window scope"),window.aka3pmInjectSwPolicy=function(e){return t({command:"updatePolicy",policy:e})},window.aka3pmDisableInjectedPolicy=function(){return t({command:"disableInjectedPolicy"})},window.aka3pmDeleteInjectedPolicy=function(){return t({command:"deleteInjectedPolicy"})},window.aka3pmGetStateAsync=function(){return t({command:"getState"})},window.aka3pmDumpState=function(){aka3pmGetStateAsync().then(function(e){aka3pmLog(JSON.stringify(e,null,"\t"))})},window.aka3pmInjectTiming=function(e){return c(e)},window.aka3pmUpdatePolicyFromNetwork=function(){return t({command:"pullPolicyFromNetwork"})})}v()}}();</script>
+<script>
+        var el = document.getElementsByTagName('html')[0];
+        if(el.classList){el.classList.remove('no-js')}else{el.className = el.className.replace('no-js', '')}
+    </script>    
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/jquery-migrate-3.6.0.min.js"></script>
+   <script>
+	$(window).load(function() {
+		// Animate loader off screen
+		$(".se-pre-con").fadeOut("slow");;
+	});
+</script>
+<style>
+/* This only works with JavaScript, 
+if it's not present, don't show loader */
+.no-js #loader { display: none;  }
+.js #loader { display: block; position: absolute; left: 100px; top: 0; }
+.se-pre-con {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url(assets/img/preloader.gif) center no-repeat #fff;
+}
+</style>
+
+<!--[if lte IE 9]>
+    <link rel="stylesheet" href="/assets/css/ie.css">
+<![endif]-->
+    <!--[if (lt IE 9) & (!IEMobile)]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+<![endif]-->
+
+	<!-- Google Tag Manager -->
+	<script>
+
+		var CheckCookies = {
+			getCookie: function (cname) {
+				var name = cname + "=";
+				var decodedCookie = decodeURIComponent(document.cookie);
+				var ca = decodedCookie.split(';');
+				for (var i = 0; i < ca.length; i++) {
+					var c = ca[i];
+					while (c.charAt(0) === ' ') {
+						c = c.substring(1);
+					}
+					if (c.indexOf(name) === 0) {
+						return c.substring(name.length, c.length);
+					}
+				}
+				return "";
+			}
+		};
+		var SetAnalytics = {
+			setTagManager: function () {
+
+				var hasConsentAnalytics = CheckCookies.getCookie('boeconsent');
+
+				if (hasConsentAnalytics === "analytics") {
+					(function (w, d, s, l, i) {
+						w[l] = w[l] || []; w[l].push({
+							'gtm.start':
+								new Date().getTime(), event: 'gtm.js'
+						}); var f = d.getElementsByTagName(s)[0],
+							j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+								'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+					})(window, document, 'script', 'dataLayer', 'GTM-TH2H9ZC');
+				}
+			},
+		}
+		SetAnalytics.setTagManager();
+	</script>
+	<!-- End Google Tag Manager -->
+
+    
+<script>(window.BOOMR_mq=window.BOOMR_mq||[]).push(["addVar",{"rua.upush":"false","rua.cpush":"false","rua.upre":"false","rua.cpre":"false","rua.uprl":"false","rua.cprl":"false","rua.cprf":"false","rua.trans":"","rua.cook":"false","rua.ims":"false","rua.ufprl":"false","rua.cfprl":"false","rua.isuxp":"false","rua.texp":"norulematch","rua.ceh":"false","rua.ueh":"false","rua.ieh.st":"0"}]);</script>
+                                <script>!function(a){var e="https://s.go-mpulse.net/boomerang/",t="addEventListener";if("False"=="True")a.BOOMR_config=a.BOOMR_config||{},a.BOOMR_config.PageParams=a.BOOMR_config.PageParams||{},a.BOOMR_config.PageParams.pci=!0,e="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="9R3WH-S6EDC-8JGQW-55286-CGTTF",function(){function n(e){a.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!a.BOOMR||!a.BOOMR.version&&!a.BOOMR.snippetExecuted){a.BOOMR=a.BOOMR||{},a.BOOMR.snippetExecuted=!0;var i,_,o,r=document.createElement("iframe");if(a[t])a[t]("load",n,!1);else if(a.attachEvent)a.attachEvent("onload",n);r.src="javascript:void(0)",r.title="",r.role="presentation",(r.frameElement||r).style.cssText="width:0;height:0;border:0;display:none;",o=document.getElementsByTagName("script")[0],o.parentNode.insertBefore(r,o);try{_=r.contentWindow.document}catch(O){i=document.domain,r.src="javascript:var d=document.open();d.domain='"+i+"';void(0);",_=r.contentWindow.document}_.open()._l=function(){var a=this.createElement("script");if(i)this.domain=i;a.id="boomr-if-as",a.src=e+"9R3WH-S6EDC-8JGQW-55286-CGTTF",BOOMR_lstart=(new Date).getTime(),this.body.appendChild(a)},_.write("<bo"+'dy onload="document._l();">'),_.close()}}(),"".length>0)if(a&&"performance"in a&&a.performance&&"function"==typeof a.performance.setResourceTimingBufferSize)a.performance.setResourceTimingBufferSize();!function(){if(BOOMR=a.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var e=""=="true"?1:0,t="",n="jhs4bmnydzqus2tsmuca-f-a89da6542-clientnsv4-s.akamaihd.net",i="false"=="true"?2:1,_={"ak.v":"41","ak.cp":"1078495","ak.ai":parseInt("286733",10),"ak.ol":"0","ak.cr":50,"ak.ipv":4,"ak.proto":"http/1.1","ak.rid":"40b9932a","ak.r":50546,"ak.a2":e,"ak.m":"a","ak.n":"essl","ak.cport":59291,"ak.gh":"23.202.99.136","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"bbr","ak.t":"1785881860","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==w+iHqpPVwtKqgpUcnF0nTUd0o0tcoYASofnKsdVtJVt6cjQ8p+iolH4RfzoZNUyHrzZHJ+tDHTzzWCdttjemyQtqhtPp8kiRT0eqc83acS175aBCJz+EtixeSOjhNqZ4LUvK4H6z5XX0j7cKEVrBU8suH3ybn9zoabbGScZhGiZUMhL2k6NjhokgeyfFj29Go35PrfSj3WH/Uoz7XM6qAhj2nToW6VNSdADpwqW4yxgDCLcCafidD0SfxkJHpETGBPa/XgdzA75vp4Nb4J6RHYL2ozsPuqDis8OWAbd/bP928C3d3Otk/gI/Jfe4yUJmE9mcJ2fYlprN8AUT6yV3vx71w+IJU/Ux4nbd/qONAL1xOq6xfuzTl8mYo9PCVt3x760Y6XkIl3I5LZVVLz++PsywapkRLHiOx/qAOIvUekc=","ak.pv":"354","ak.dpoabenc":"","ak.tf":i};if(""!==t)_["ak.ruds"]=t;var o={i:!1,av:function(e){var t="http.initiator";if(e&&(!e[t]||"spa_hard"===e[t]))_["ak.feo"]=void 0!==a.aFeoApplied?1:0,BOOMR.addVar(_)},rv:function(){var a=["ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(a)}};BOOMR.plugins.AK={akVars:_,akDNSPreFetchDomain:n,init:function(){if(!o.i){var a=BOOMR.subscribe;a("before_beacon",o.av,null,null),a("onbeacon",o.rv,null,null),o.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+    <body>
+    <div class="se-pre-con"></div>
+
+    <div class="wrap" itemscope itemtype="http://schema.org/WebPage">
+		<div class="nav-bypass">
+			<a href="#content-start" class="nav-bypass__link">Skip to main content</a>
+		</div>
+<header class="global-header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="header-brand" itemscope itemtype="http://schema.org/Organisation"> <a href="default.asp" class="header-logo" itemscope itemtype="http://schema.org/Brand"> <img src="assets/img/logo.svg" alt="Bank of England | Database" width="330" > Bank of England | Database </a> </div>
+  <a href="#menu" class="btn-menu"><i class="icon-menu"></i> <i class="icon-cancel"></i></a> <a href="#search" class="btn-search"><i class="icon-cancel"></i></a>
+  <div class="header-nav" id="#menu">
+    <nav class="nav-main" itemscope itemtype="http://schema.org/SiteNavigationElement">
+      <ul class="nav-main-menu">
+        <li class="nav-main-item nav-browse-menu-item"> <a href="CategoryIndex.asp?Travel=NIxAZx&CategId=allcats&CategName=Combined A to Z" class="nav-main-link nav-browse-menu-link"><span style="text-transform:none">Browse data<i class="icon-up-dir"></i><i class="icon-down-dir"></i></span></a>
+          <ul class="nav-browse-menu">
+            <li class="nav-browse-item"><a href="BankStats.asp?Travel=NIx" class="nav-browse-link">Topics</a></li>
+            <li class="nav-browse-item"><a href="/statistics/Tables" title="Table references (main website)" target="_blank" class="nav-browse-link">Tables</a></li>
+            <li class="nav-browse-item"><a href="CategoryIndex.asp?Travel=NIxAZx&CategId=9&CategName=COUNTRY" class="nav-browse-link">Countries</a></li>
+            <li class="nav-browse-item"><a href="CategoryIndex.asp?Travel=NIxAZx&CategId=6&CategName=INSTRUMENTS" class="nav-browse-link">Financial categories</a></li>
+             <li class="nav-browse-item"><a href="CategoryIndex.asp?Travel=NIxAZx&CategId=sectorcats&CategName=SECTOR" class="nav-browse-link">Economic/industrial sectors</a></li>
+             <li class="nav-browse-item"><a href="CategoryIndex.asp?Travel=NIxAZx&CategId=allcats&CategName=Combined A to Z" class="nav-browse-link">A-Z</a></li>
+            
+           
+          </ul>
+        </li>
+        <li class="nav-main-item nav-has-children"> <a href="index.asp?Travel=NIxIRx&levels=3&XNotes=Y&A3951XNode3951.x=10&A3951XNode3951.y=12&Nodes=&SectionRequired=I&HideNums=-1&ExtraInfo=true#BM" class="nav-main-link"><span>Exchange rates<i class="icon-up-dir"></i><i class="icon-down-dir"></i></span></a>
+          <ul class="nav-sub-menu">
+            <li class="nav-sub-item"><a href="Rates.asp?Travel=NIxAZx&into=GBP" class="nav-sub-link"><abbr title="British pound sterling">GBP</abbr> daily  rates</a></li>
+            <li class="nav-sub-item"><a href="Rates.asp?Travel=NIxAZx&into=EUR" class="nav-sub-link"><abbr title="Euro">EUR</abbr> daily rates</a></li>
+            
+            <li class="nav-sub-item"><a href="Rates.asp?Travel=NIxAZx&into=USD" class="nav-sub-link"><abbr title="US Dollars">USD</abbr> daily rates</a></li>
+            <li class="nav-sub-item"><a href="index.asp?first=yes&SectionRequired=I&HideNums=-1&ExtraInfo=true&Travel=NIx" class="nav-sub-link">View all</a></li>
+          </ul>
+        </li>
+        <li class="nav-main-item"><a href="Help.asp?Travel=NIxASx&Back=AdvSearch.asp" class="nav-main-link"><span>Help</span></a></li>
+        <li class="nav-main-item item-mainsite-link"><a href="https://www.bankofengland.co.uk" class="nav-main-link"><span>Bank of England website</span></a></li>
+      </ul>
+    </nav>
+    <div class="search-widget" id="search">
+      <form method="get" action="FromShowColumns.asp">
+        <fieldset class="search-widget-fields" >
+		<legend class="visually-hidden">Search the database</legend>
+          <label for="gsc-i-id1" class="visually-hidden">Search</label>
+          <input type="hidden" name="Travel" value="" />
+          <input name="searchText" type="search" id="gsc-i-id1" placeholder="Search our data..." title="search" autoComplete="off" size=10 class="search-widget-field" />
+          <button type="submit" class="search-widget-btn">Search</button>
+
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</header>
+<span id="content-start"></span>      <div class="page-content">
+        <section class="page-section">
+          <div class="container">
+		  
+          <FORM ACTION="fromshowcolumns.asp" METHOD="GET" id=form1 name=form1>
+            <input type=hidden name="Travel" value="NIxSTxSUx">
+            <input type=hidden name="FromSeries" value="1">
+            <input type=hidden name="ToSeries" value="50">
+            
+            <h1>Your selected data series</h1>
+            <div class="page-description" itemprop="description">
+              <p class="hero">Review and refine your selection</p>         
+			  <p>
+            <A href="fromshowcolumns.asp?Travel=NIxSTx&SearchText=divisia&SearchTextFields=TC&P=X13TX&PageNo.x=1&PageNo.y=1&XNotes=Y">Back</A></span>
+            </p>
+            </div>
+            
+                
+
+<div style="background-color: #f8f8f8; padding:20px">
+
+
+ 
+ 
+ <div class="col4 field field-radio">
+    <label  id="RNG_LBL" for="RNG" class="label-radio"><input type="radio" name="DAT" id="RNG" value="RNG" checked onClick="enableRepDates()" class="input-radio"><span class="icon-radio"></span> Date range </label>
+
+         
+            <table border="0" cellspacing=0 cellpadding=0>
+              <tr>
+                <td>from<i>&nbsp;</i></td>
+                <td colspan="2" nowrap><select class="advSearchOptions" name="FD" id="FD" size="1">
+                    
+                    <option value=1 selected >1</option>
+                    
+                    <option value=2>2</option>
+                    
+                    <option value=3>3</option>
+                    
+                    <option value=4>4</option>
+                    
+                    <option value=5>5</option>
+                    
+                    <option value=6>6</option>
+                    
+                    <option value=7>7</option>
+                    
+                    <option value=8>8</option>
+                    
+                    <option value=9>9</option>
+                    
+                    <option value=10>10</option>
+                    
+                    <option value=11>11</option>
+                    
+                    <option value=12>12</option>
+                    
+                    <option value=13>13</option>
+                    
+                    <option value=14>14</option>
+                    
+                    <option value=15>15</option>
+                    
+                    <option value=16>16</option>
+                    
+                    <option value=17>17</option>
+                    
+                    <option value=18>18</option>
+                    
+                    <option value=19>19</option>
+                    
+                    <option value=20>20</option>
+                    
+                    <option value=21>21</option>
+                    
+                    <option value=22>22</option>
+                    
+                    <option value=23>23</option>
+                    
+                    <option value=24>24</option>
+                    
+                    <option value=25>25</option>
+                    
+                    <option value=26>26</option>
+                    
+                    <option value=27>27</option>
+                    
+                    <option value=28>28</option>
+                    
+                    <option value=29>29</option>
+                    
+                    <option value=30>30</option>
+                    
+                    <option value=31>31</option>
+                    
+                  </select>
+                  <select class="advSearchOptions" name="FM" id="FM" size="1">
+                    
+                    <option value=Jan selected >Jan</option>
+                    
+                    <option value=Feb>Feb</option>
+                    
+                    <option value=Mar>Mar</option>
+                    
+                    <option value=Apr>Apr</option>
+                    
+                    <option value=May>May</option>
+                    
+                    <option value=Jun>Jun</option>
+                    
+                    <option value=Jul>Jul</option>
+                    
+                    <option value=Aug>Aug</option>
+                    
+                    <option value=Sep>Sep</option>
+                    
+                    <option value=Oct>Oct</option>
+                    
+                    <option value=Nov>Nov</option>
+                    
+                    <option value=Dec>Dec</option>
+                    
+                  </select>
+                  <select class="advSearchOptions" name="FY" id="FY" size="1">
+                    
+                    <option value=2026>2026</option>
+                    
+                    <option value=2025>2025</option>
+                    
+                    <option value=2024>2024</option>
+                    
+                    <option value=2023>2023</option>
+                    
+                    <option value=2022>2022</option>
+                    
+                    <option value=2021>2021</option>
+                    
+                    <option value=2020>2020</option>
+                    
+                    <option value=2019>2019</option>
+                    
+                    <option value=2018>2018</option>
+                    
+                    <option value=2017>2017</option>
+                    
+                    <option value=2016 selected >2016</option>
+                    
+                    <option value=2015>2015</option>
+                    
+                    <option value=2014>2014</option>
+                    
+                    <option value=2013>2013</option>
+                    
+                    <option value=2012>2012</option>
+                    
+                    <option value=2011>2011</option>
+                    
+                    <option value=2010>2010</option>
+                    
+                    <option value=2009>2009</option>
+                    
+                    <option value=2008>2008</option>
+                    
+                    <option value=2007>2007</option>
+                    
+                    <option value=2006>2006</option>
+                    
+                    <option value=2005>2005</option>
+                    
+                    <option value=2004>2004</option>
+                    
+                    <option value=2003>2003</option>
+                    
+                    <option value=2002>2002</option>
+                    
+                    <option value=2001>2001</option>
+                    
+                    <option value=2000>2000</option>
+                    
+                    <option value=1999>1999</option>
+                    
+                    <option value=1998>1998</option>
+                    
+                    <option value=1997>1997</option>
+                    
+                    <option value=1996>1996</option>
+                    
+                    <option value=1995>1995</option>
+                    
+                    <option value=1994>1994</option>
+                    
+                    <option value=1993>1993</option>
+                    
+                    <option value=1992>1992</option>
+                    
+                    <option value=1991>1991</option>
+                    
+                    <option value=1990>1990</option>
+                    
+                    <option value=1989>1989</option>
+                    
+                    <option value=1988>1988</option>
+                    
+                    <option value=1987>1987</option>
+                    
+                    <option value=1986>1986</option>
+                    
+                    <option value=1985>1985</option>
+                    
+                    <option value=1984>1984</option>
+                    
+                    <option value=1983>1983</option>
+                    
+                    <option value=1982>1982</option>
+                    
+                    <option value=1981>1981</option>
+                    
+                    <option value=1980>1980</option>
+                    
+                    <option value=1979>1979</option>
+                    
+                    <option value=1978>1978</option>
+                    
+                    <option value=1977>1977</option>
+                    
+                    <option value=1976>1976</option>
+                    
+                    <option value=1975>1975</option>
+                    
+                    <option value=1974>1974</option>
+                    
+                    <option value=1973>1973</option>
+                    
+                    <option value=1972>1972</option>
+                    
+                    <option value=1971>1971</option>
+                    
+                    <option value=1970>1970</option>
+                    
+                    <option value=1969>1969</option>
+                    
+                    <option value=1968>1968</option>
+                    
+                    <option value=1967>1967</option>
+                    
+                    <option value=1966>1966</option>
+                    
+                    <option value=1965>1965</option>
+                    
+                    <option value=1964>1964</option>
+                    
+                    <option value=1963>1963</option>
+                    
+                  </select></td>
+              </tr>
+              <tr>
+                <td>to</td>
+                <td colspan="2" nowrap><select class="advSearchOptions" name="TD" id="TD" size="1">
+                    
+                    <option value=1>1</option>
+                    
+                    <option value=2>2</option>
+                    
+                    <option value=3>3</option>
+                    
+                    <option value=4 selected >4</option>
+                    
+                    <option value=5>5</option>
+                    
+                    <option value=6>6</option>
+                    
+                    <option value=7>7</option>
+                    
+                    <option value=8>8</option>
+                    
+                    <option value=9>9</option>
+                    
+                    <option value=10>10</option>
+                    
+                    <option value=11>11</option>
+                    
+                    <option value=12>12</option>
+                    
+                    <option value=13>13</option>
+                    
+                    <option value=14>14</option>
+                    
+                    <option value=15>15</option>
+                    
+                    <option value=16>16</option>
+                    
+                    <option value=17>17</option>
+                    
+                    <option value=18>18</option>
+                    
+                    <option value=19>19</option>
+                    
+                    <option value=20>20</option>
+                    
+                    <option value=21>21</option>
+                    
+                    <option value=22>22</option>
+                    
+                    <option value=23>23</option>
+                    
+                    <option value=24>24</option>
+                    
+                    <option value=25>25</option>
+                    
+                    <option value=26>26</option>
+                    
+                    <option value=27>27</option>
+                    
+                    <option value=28>28</option>
+                    
+                    <option value=29>29</option>
+                    
+                    <option value=30>30</option>
+                    
+                    <option value=31>31</option>
+                    
+                  </select>
+                  <select class="advSearchOptions" name="TM" id="TM" size="1">
+                    
+                    <option value=Jan>Jan</option>
+                    
+                    <option value=Feb>Feb</option>
+                    
+                    <option value=Mar>Mar</option>
+                    
+                    <option value=Apr>Apr</option>
+                    
+                    <option value=May>May</option>
+                    
+                    <option value=Jun>Jun</option>
+                    
+                    <option value=Jul>Jul</option>
+                    
+                    <option value=Aug selected >Aug</option>
+                    
+                    <option value=Sep>Sep</option>
+                    
+                    <option value=Oct>Oct</option>
+                    
+                    <option value=Nov>Nov</option>
+                    
+                    <option value=Dec>Dec</option>
+                    
+                  </select>
+                  <select class="advSearchOptions" name="TY" id="TY" size="1">
+                    
+                    <option value=2026 selected >2026</option>
+                    
+                    <option value=2025>2025</option>
+                    
+                    <option value=2024>2024</option>
+                    
+                    <option value=2023>2023</option>
+                    
+                    <option value=2022>2022</option>
+                    
+                    <option value=2021>2021</option>
+                    
+                    <option value=2020>2020</option>
+                    
+                    <option value=2019>2019</option>
+                    
+                    <option value=2018>2018</option>
+                    
+                    <option value=2017>2017</option>
+                    
+                    <option value=2016>2016</option>
+                    
+                    <option value=2015>2015</option>
+                    
+                    <option value=2014>2014</option>
+                    
+                    <option value=2013>2013</option>
+                    
+                    <option value=2012>2012</option>
+                    
+                    <option value=2011>2011</option>
+                    
+                    <option value=2010>2010</option>
+                    
+                    <option value=2009>2009</option>
+                    
+                    <option value=2008>2008</option>
+                    
+                    <option value=2007>2007</option>
+                    
+                    <option value=2006>2006</option>
+                    
+                    <option value=2005>2005</option>
+                    
+                    <option value=2004>2004</option>
+                    
+                    <option value=2003>2003</option>
+                    
+                    <option value=2002>2002</option>
+                    
+                    <option value=2001>2001</option>
+                    
+                    <option value=2000>2000</option>
+                    
+                    <option value=1999>1999</option>
+                    
+                    <option value=1998>1998</option>
+                    
+                    <option value=1997>1997</option>
+                    
+                    <option value=1996>1996</option>
+                    
+                    <option value=1995>1995</option>
+                    
+                    <option value=1994>1994</option>
+                    
+                    <option value=1993>1993</option>
+                    
+                    <option value=1992>1992</option>
+                    
+                    <option value=1991>1991</option>
+                    
+                    <option value=1990>1990</option>
+                    
+                    <option value=1989>1989</option>
+                    
+                    <option value=1988>1988</option>
+                    
+                    <option value=1987>1987</option>
+                    
+                    <option value=1986>1986</option>
+                    
+                    <option value=1985>1985</option>
+                    
+                    <option value=1984>1984</option>
+                    
+                    <option value=1983>1983</option>
+                    
+                    <option value=1982>1982</option>
+                    
+                    <option value=1981>1981</option>
+                    
+                    <option value=1980>1980</option>
+                    
+                    <option value=1979>1979</option>
+                    
+                    <option value=1978>1978</option>
+                    
+                    <option value=1977>1977</option>
+                    
+                    <option value=1976>1976</option>
+                    
+                    <option value=1975>1975</option>
+                    
+                    <option value=1974>1974</option>
+                    
+                    <option value=1973>1973</option>
+                    
+                    <option value=1972>1972</option>
+                    
+                    <option value=1971>1971</option>
+                    
+                    <option value=1970>1970</option>
+                    
+                    <option value=1969>1969</option>
+                    
+                    <option value=1968>1968</option>
+                    
+                    <option value=1967>1967</option>
+                    
+                    <option value=1966>1966</option>
+                    
+                    <option value=1965>1965</option>
+                    
+                    <option value=1964>1964</option>
+                    
+                    <option value=1963>1963</option>
+                    
+                  </select></td>
+              </tr>
+            </table>
+            </div>
+            
+            <div class="col4 field field-radio">
+    <label id="ALL_LBL" for="ALL" class="label-radio"><input type="radio" name="DAT" id="ALL" value="ALL" class="input-radio"  onClick="disableRepDates()"><span class="icon-radio"></span> All available dates </label>
+ </div>
+            
+            <div class="col4" style="padding: 0; margin:0"> <!--Display footnotes (where applicable)
+             <div class="field field-radio">
+               <label for="FNY" class="label-radio"style="margin-right:40px"><input type="radio" name="FNY" id="FNY" value="Y" class="input-radio" checked ><span class="icon-radio"></span> Yes </label>
+    <label for="FNN" class="label-radio"style=""><input type="radio" name="FNY" id="FNN" value="N" class="input-radio"><span class="icon-radio"></span> No </label>
+</div>--><input name="FNY" type="hidden" id="FNY">
+             
+            <a href="fromshowcolumns.asp?Filter=N&Travel=NIxSTx&SearchText=divisia&SearchTextFields=TC&C=13T&ShowData.x=1&ShowData.y=1&XNotes=Y" ><IMG ALT="Open Data Updates Filter" SRC="images/Tables/GreyOpenUpdatesFilter.png" class="rightfloat" ></a>
+            
+                          
+            <input type="hidden" NAME="CSVF" ID="CSVF" VALUE="TT" >             
+            
+    </div>
+            <TABLE cellspacing=0 cellpadding=0>
+              
+            </TABLE>
+            
+              
+ <div class="clear"></div>
+            <p>You have selected the <B>1</B> series shown below.<br>
+              
+              NB: the ordering may differ from that of the previous page. 
+              See <a href="Help.asp?Travel=NIxSTxSUx&Highlight=Ordering&Back=fromshowcolumns.asp?Travel=NIxSTx|SearchText=divisia|SearchTextFields=TC|C=13T|ShowData.x=1|ShowData.y=1|XNotes=Y#Ordering"> <b>help</b></a> for more details.
+              
+              </span> <br>
+              <br>
+            </p>
+</div> 
+                <div style="padding:20px; text-align:center">
+          <INPUT TYPE=IMAGE NAME="html" SRC="Links/html.gif" class="summaryChooser" ALT="View data" align="middle">   
+        </div>
+            <table cellpadding="2" class="table">
+              
+              <tr>
+                <td valign="top" width="200">
+                <div class="field field-checkbox">
+    <label for="13T" class="label-checkbox"><input type="checkbox" name="C" id="13T" value="13T" class="input-checkbox" CHECKED > <span class="icon-checkbox"></span>
+      <strong>IUDBEDR</strong> </label></div>
+      <a href="fromshowcolumns.asp?Travel=NIxAZxSUx&FromSeries=1&ToSeries=50&DAT=RNG&FD=1&FM=Jan&FY=2021&TD=4&TM=Aug&TY=2026&FNY=Y&CSVF=TT&html.x=66&html.y=26&SeriesCodes=IUDBEDR&UsingCodes=Y&Filter=N&title=IUDBEDR&VPD=Y" style="font-size:11px" title="View chart for this data series"><img src="images/quickchart.png" width="137" height="30" alt="View chart for this data series" /></a> 
+      </td>
+    
+<td><label for="13T">                
+                <strong>
+                Official Bank Rate (*1) </strong><br>
+                Published: 04 Aug 2026
+            </TABLE>
+            
+            <br>
+            <span class='pagelinks'>(1): Please see <a href="http://www.bankofengland.co.uk/statistics/pages/iadb/notesiadb/wholesale_baserate.aspx" target="_blank">notes and definitions for Wholesale:Bank of England base rate</a></span>
+            <INPUT TYPE="HIDDEN" ID="Filter" NAME="Filter" VALUE="N">
+            
+          </form>
+
+                
+                <br>
+                
+                <b><a href="Simplesearch.asp?SearchText=divisia">Search again</a></b> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; <b><a href="AdvSearch.asp?SearchText=divisia">Advanced search</a></b>
+                
+                &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                
+                <b><a href="Help.asp?Travel=NIxSTxSUx&Back=fromshowcolumns.asp?Travel=NIxSTx|SearchText=divisia|SearchTextFields=TC|C=13T|ShowData.x=1|ShowData.y=1|XNotes=Y">Help Index</a></b> <br>
+                <br>
+                </SPAN>
+
+
+<script language=JavaScript type=text/javascript>
+
+//	function MM_openBrWindow(theURL,winName,features) 
+// 		{ 
+//		if (document.getElementById("Filter").value == "Y")
+//			{
+//			window.open(theURL,winName,features);
+//			}
+// 		}
+
+	function enableRevDates() 
+		{ 
+		if (document.getElementById("Filter").value == "Y")
+			{
+			document.getElementById("RFD").disabled=false;
+			document.getElementById("RFM").disabled=false;
+			document.getElementById("RFY").disabled=false;
+			document.getElementById("COMPARE_LBL").disabled=true;
+			document.getElementById("SINCE_DATE_LBL").disabled=false;
+			document.getElementById("RFD").focus();
+			}
+		}
+
+	function disableRevDates() 
+		{ 
+		if (document.getElementById("Filter").value == "Y")
+			{
+			document.getElementById("RFD").disabled=true;
+			document.getElementById("RFM").disabled=true;
+			document.getElementById("RFY").disabled=true;
+			document.getElementById("COMPARE_LBL").disabled=false;
+			document.getElementById("SINCE_DATE_LBL").disabled=true;
+			}
+		}
+
+	function enableRepDates() 
+		{ 
+		document.getElementById("FD").disabled=false;
+		document.getElementById("FM").disabled=false;
+		document.getElementById("FY").disabled=false;
+		document.getElementById("TD").disabled=false;
+		document.getElementById("TM").disabled=false;
+		document.getElementById("TY").disabled=false;
+		document.getElementById("ALL_LBL").disabled=true;
+		document.getElementById("RNG_LBL").disabled=false;
+		document.getElementById("FD").focus();
+		}
+
+	function disableRepDates() 
+		{ 
+		document.getElementById("FD").disabled=true;
+		document.getElementById("FM").disabled=true;
+		document.getElementById("FY").disabled=true;
+		document.getElementById("TD").disabled=true;
+		document.getElementById("TM").disabled=true;
+		document.getElementById("TY").disabled=true;
+		document.getElementById("ALL_LBL").disabled=false;
+		document.getElementById("RNG_LBL").disabled=true;
+		}
+
+	 function setFocus()
+ 		{
+ 		if (document.getElementById("Filter").value == "Y")
+ 			{
+ 			if (document.getElementById("SINCE_DATE").checked == true)
+ 				{
+ 				enableRevDates();
+ 				}
+ 			}
+ 		}
+
+</script>
+
+		  </div>         
+        </section>
+		
+        <section class="page-section">
+          <div class="container">
+            <div class="col12">
+              <p class="txtr"><a class="scroll-to-top" href="#">Back to top</a></p>
+            </div>
+          </div>
+        </section>
+      </div>
+      
+<footer class="global-footer" itemscope itemtype="http://schema.org/WPFooter">
+  <div class="container">
+    <div class="col3 s-full">
+      <div class="footer-brand">
+        <p><a href="https://www.bankofengland.co.uk/" target="_blank" class="footer-logo"><img src="assets/img/BOE_Logo_white.svg" alt="Bank of England"  height="50"> Bank of England</a></p>
+      </div>
+      <div class="footer-social-bank">
+        <h3>Follow us</h3>
+        <ul class=social-links>
+          <li class="social-item"><a class="social-link" href="https://twitter.com/bankofengland" target="_blank"><i class="icon-twitter-bird"></i> <span class="si-text">Follow us on Twitter</span></a></li>
+          <li class="social-item"><a class="social-link" href="https://www.linkedin.com/company/bank-of-england/" target="_blank"><i class="icon-linkedin"></i> <span class="si-text">Connect with us on LinkedIn</span></a></li>
+          <li class="social-item"><a class="social-link" href="https://www.youtube.com/user/bankofenglanduk" target="_blank"><i class="icon-youtube-play"></i> <span class="si-text">Watch us on Youtube</span></a></li>
+          <li class="social-item"><a class="social-link" href="https://www.flickr.com/photos/bankofengland/albums" target="_blank"><i class="icon-flickr"></i> <span class="si-text">Find us on Flickr</span></a></li>
+          <li class="social-item"><a class="social-link" href="https://www.facebook.com/bankofengland.co.uk" target="_blank"><i class="icon-facebook"></i> <span class="si-text">Add us on Facebook</span></a></li>
+        </ul>
+      </div>
+      <div class="footer-social-museum">
+        <h3>Museum</h3>
+        <ul class="social-links">
+          <li class="social-item"><a class="social-link" href="https://twitter.com/boemuseum" target="_blank"><i class="icon-twitter-bird">Follow us on Twitter</i></a></li>
+          <li class="social-item"><a class="social-link" href="https://www.facebook.com/boemuseum" target="_blank"><i class="icon-facebook">Add us on Facebook</i></a></li>
+          <li class="social-item"><a class="social-link" href="https://www.instagram.com/boemuseum/" target="_blank"><i class="icon-instagram">Follow us on Instagram</i></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="col3 s-half">
+      <div class="footer-topics">
+        <h3>Useful links</h3>
+        <ul class="footer-links">
+          <li class="footer-item"><a class="footer-link" href="advsearch.asp?Travel=NIx">Advanced search</a></li>
+          <li class="footer-item"><a href="index.asp?SectionRequired=I&first=yes&HideNums=-1&ExtraInfo=true&Travel=NIxIRx&levels=3" class="footer-link" >Interest and exchange rates data</a></li>
+          <li class="footer-item"><a class="footer-link" href="help.asp?Back=Y&Highlight=Subscribe#Subscribe">Subscribe to XML download changes</a></li>
+          <li class="footer-item"><a class="footer-link" href="Bank-Rate.asp">Official Bank Rate history</a></li>
+          <li class="footer-item"><a class="footer-link" href="https://www.bankofengland.co.uk/-/media/BoE/Files/statistics/discontinued-series" target="_blank">Discontinued series</a></li>
+          <li class="footer-item"><a class="footer-link" href="https://www.bankofengland.co.uk/statistics/details" target="_blank">Notes about our data</a></li>
+          <li class="footer-item"><a class="footer-link" href="https://www.bankofengland.co.uk/statistics/tables" target="_blank">Bankstats tables</a></li>
+          <li class="footer-item"><a class="footer-link" href="https://www.bankofengland.co.uk/statistics" target="_blank">Bank of England Statistics</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="m-clear"></div>
+    <div class="col3 s-full">
+      <div class="footer-contact">
+        <h3>Visiting the bank</h3>
+        <ul class="footer-contact-info">
+          <li class="footer-address">Threadneedle Street, London, EC2R 8AH</li>
+          <li class="footer-tel">Switchboard: <a class="footer-tel-link" href="tel:+442034614444">+44(0)20 3461 4444</a></li>
+          <li class="footer-tel">Enquiries: <a class="footer-tel-link" href="tel:+442034614878">+44(0)20 3461 4878</a></li>
+        </ul>
+        <h3>Visiting the museum</h3>
+        <ul class="footer-contact-info">
+          <li class="footer-address">Bartholomew Lane, London, EC2R 8AH</li>
+        </ul>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="footer-copyright">
+    <div class="container">
+      <div class="col12">
+        <p class="text-copyright">&copy; 2026 Bank of England </p>
+        <ul class="list-inline">
+          <li class="list-inline__item"><a href="https://www.bankofengland.co.uk/accessibility" target="_blank">Accessibility statement</a></li>
+          <li class="list-inline__item"><a href="https://www.bankofengland.co.uk/legal/privacy-and-cookie-policy" target="_blank">Cookies</a></li>
+          <li class="list-inline__item"><a href="https://www.bankofengland.co.uk/legal" target="_blank">Legal</a></li>
+          <li class="list-inline__item"><a href="https://www.bankofengland.co.uk/legal/privacy" target="_blank">Privacy</a></li>
+        </ul>
+      </div>
+      <div class="clear"></div>
+    </div>
+  </div>
+</footer>
+
+<div class="cookie-notice">
+  <div class="cookie-notice__panel">
+    <div class="cookie-content content-block">
+      <h2 class="cookie-title exclude-navigation">Our use of cookies</h2>
+
+      <p>We use necessary cookies to make our site work (for example, to manage your session). We&rsquo;d also like to use some non-essential cookies (including third-party cookies) to help us improve the site. By clicking &lsquo;Accept recommended settings&rsquo; on this banner, you accept our use of optional cookies.</p>
+
+      <style>
+        .cookie__button {
+          max-width: 225px;
+        }
+      </style>
+
+      <table class="cookie-notice__table">
+        <tr>
+          <th>Necessary cookies</th>
+          <th>Analytics cookies</th>
+          <td class="table-header">&nbsp;</td>
+        </tr>
+        <tr>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>
+            <button class="cookie__button btn btn-default" data-cookie="analytics">Accept recommended cookies</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Yes</td>
+          <td>No</td>
+          <td><button class="cookie__button btn btn-default btn-neutral" data-cookie="necessary">Proceed with necessary cookies only</button></td>
+        </tr>
+      </table>
+
+      <h3>Necessary cookies</h3>
+      <p>Necessary cookies enable core functionality on our website such as security, network management, and accessibility. You may disable these by changing your browser settings, but this may affect how the website functions. </p>
+      <h3>Analytics cookies</h3>
+      <p>We use analytics cookies so we can keep track of the number of visitors to various parts of the site and understand how our website is used. For more information on how these cookies work please see our <a href="https://www.bankofengland.co.uk/legal/privacy-and-cookie-policy" target="_blank">Cookie policy</a>.</p>
+    </div>
+  </div>
+</div> 
+  
+<script src="assets/js/min/slick.min.js"></script> 
+<script src="assets/js/min/scripts.js"></script> 
+<script type="application/ld+json">
+{
+    "@context" : "http://schema.org",
+    "@type" : "Organization",
+    "name" : "Bank of England",
+    "url" : "https://www.bankofengland.co.uk",
+    "logo" : "https://www.bankofengland.co.uk/img/bankofengland-logo.png",
+    "sameAs" : [
+    ],
+    "contactPoint" : [
+    {
+        "@type" : "ContactPoint",
+        "telephone" : "+44(0)0000000",
+        "contactType" : "customer service"
+    }
+    ]
+}
+</script>
+  
+
+    </div>
+</body>
+</html>
